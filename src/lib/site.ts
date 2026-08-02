@@ -33,13 +33,27 @@ function resolveSiteUrl(): string {
   return "https://drsayanbanerjee.com";
 }
 
+const resolvedUrl = resolveSiteUrl();
+
+/**
+ * True once the site is being served from its real domain.
+ *
+ * While it is still on a *.vercel.app preview URL, the whole site is marked
+ * `noindex`: otherwise Google indexes the preview and it ends up competing
+ * with the real domain for the practice's own name. Sharing the link is
+ * unaffected — it only stops search engines filing it away.
+ *
+ * Set `NEXT_PUBLIC_SITE_URL` to the live domain and indexing turns itself on.
+ */
+export const isCanonicalDomain = !resolvedUrl.includes(".vercel.app");
+
 export const site = {
   name: "Dr. Sayan Banerjee",
   role: "Paediatric & Adolescent Endocrinologist",
   shortRole: "Paediatric Endocrinologist",
   qualifications: "MBBS, MD (Paediatrics), DM (Paediatric Endocrinology)",
   city: "Kolkata",
-  url: resolveSiteUrl(),
+  url: resolvedUrl,
   locale: "en_IN",
   tagline: "Growth is a conversation that takes years. I plan to be there for all of them.",
   description:

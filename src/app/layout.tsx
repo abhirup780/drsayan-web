@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/chrome/site-header";
 import { SiteFooter } from "@/components/chrome/site-footer";
 import { ThemeScript } from "@/components/chrome/theme-script";
 import { PersonJsonLd } from "@/components/seo/json-ld";
-import { site } from "@/lib/site";
+import { isCanonicalDomain, site } from "@/lib/site";
 
 import "./globals.css";
 
@@ -86,10 +86,17 @@ export const metadata: Metadata = {
     title: `${site.name} · ${site.role}`,
     description: site.description,
   },
+  // Indexing switches itself on once the site is on its real domain; see
+  // `isCanonicalDomain` in src/lib/site.ts.
   robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    index: isCanonicalDomain,
+    follow: isCanonicalDomain,
+    googleBot: {
+      index: isCanonicalDomain,
+      follow: isCanonicalDomain,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   category: "health",
 };
