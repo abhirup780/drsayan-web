@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated screenshots / scratch
+*.tmp.mjs
+
+# Vercel
+.vercel

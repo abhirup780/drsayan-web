@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Three figures growing: the same geometry as the on-page mark in
+       src/components/motif/growth-figures.tsx, fitted to the 128 box with an
+       even 13px margin so the tallest figure never touches the edge. -->
+  <rect width="128" height="128" rx="28" fill="#14181b"/>
+  <g fill="#e3a15a" transform="translate(11.18 18.46) scale(0.9107)">
+    <g transform="translate(2 54) scale(0.46)">
+      <circle cx="22" cy="15" r="15"/>
+      <rect x="1" y="36" width="42" height="32" rx="15"/>
+      <rect x="5" y="61" width="15" height="39" rx="7.5"/>
+      <rect x="24" y="61" width="15" height="39" rx="7.5"/>
+    </g>
+    <g transform="translate(30 30) scale(0.7)">
+      <circle cx="22" cy="15" r="15"/>
+      <rect x="1" y="36" width="42" height="32" rx="15"/>
+      <rect x="5" y="61" width="15" height="39" rx="7.5"/>
+      <rect x="24" y="61" width="15" height="39" rx="7.5"/>
+    </g>
+    <g transform="translate(70 0) scale(1)">
+      <circle cx="22" cy="15" r="15"/>
+      <rect x="1" y="36" width="42" height="32" rx="15"/>
+      <rect x="5" y="61" width="15" height="39" rx="7.5"/>
+      <rect x="24" y="61" width="15" height="39" rx="7.5"/>
+    </g>
+  </g>
+</svg>

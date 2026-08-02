@@ -1,26 +1,359 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ------------------------------------------------------------------ *
+ *  Dark mode is class-driven (see ThemeScript) so an explicit user
+ *  choice always beats the OS preference.
+ * ------------------------------------------------------------------ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ *
+ *  Design tokens
+ *
+ *  The palette is deliberately un-clinical: warm archival paper, deep
+ *  ink, a marigold accent borrowed from Bengali ritual colour, and a
+ *  botanical teal for quiet, trustworthy support. No hospital blues.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #f7f4ee;
+  --color-paper-raised: #fffdf9;
+  --color-paper-sunk: #efeae0;
+  --color-ink: #14181b;
+  --color-ink-muted: #4c565d;
+  --color-ink-faint: #78838a;
+  --color-marigold: #b85c17;
+  --color-marigold-soft: #e3a15a;
+  --color-marigold-wash: #f6e7d5;
+  --color-teal: #1f4f4a;
+  --color-teal-soft: #4c817a;
+  --color-line: rgb(20 24 27 / 0.14);
+  --color-line-soft: rgb(20 24 27 / 0.07);
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-ui), ui-monospace, "SFMono-Regular", monospace;
+  --font-deva: var(--font-deva), var(--font-fraunces), serif;
+
+  --text-hero: clamp(2.6rem, 8vw, 7rem);
+  --text-display: clamp(2rem, 5vw, 3.9rem);
+  --text-title: clamp(1.55rem, 2.9vw, 2.4rem);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee-x: marquee-x 52s linear infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark surface: not black — a cold slate that lets marigold sing. */
+.dark {
+  --color-paper: #101315;
+  --color-paper-raised: #181c1f;
+  --color-paper-sunk: #0a0d0e;
+  --color-ink: #ece7de;
+  --color-ink-muted: #a7aeb4;
+  --color-ink-faint: #7d878e;
+  --color-marigold: #eaa869;
+  --color-marigold-soft: #b9762f;
+  --color-marigold-wash: #261f18;
+  --color-teal: #86b8af;
+  --color-teal-soft: #3d6d67;
+  --color-line: rgb(236 231 222 / 0.16);
+  --color-line-soft: rgb(236 231 222 / 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--color-paper);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-marigold);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-marigold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Fraunces is variable: display sizes get the wonky, soft, high-contrast
+     cut; body-sized serif text stays sober. */
+  .font-display {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 40, "WONK" 1, "opsz" 120;
+    letter-spacing: -0.024em;
+    font-weight: 400;
+  }
+
+  .font-display-tight {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 24;
+    letter-spacing: -0.01em;
+  }
+
+  /* Small mono eyebrow — the editorial "index number" voice. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+
+  .rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      var(--color-line),
+      var(--color-line-soft) 60%,
+      transparent
+    );
+  }
+
+  /* Paper grain — one inline SVG, no network request. */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.42;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+  }
+
+  .dark .grain::before {
+    mix-blend-mode: screen;
+    opacity: 0.16;
+  }
+
+  /* Underline that grows from the left on hover — used on every inline
+     navigational link so the whole site shares one hover language. */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-out-expo);
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Long-form article typography (the blog)
+ * ------------------------------------------------------------------ */
+.prose-clinic {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-ink-muted);
+}
+
+.prose-clinic > * + * {
+  margin-top: 1.35em;
+}
+
+.prose-clinic h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 40, "WONK" 1, "opsz" 90;
+  font-size: clamp(1.45rem, 2.6vw, 1.95rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  margin-top: 2.5em;
+  margin-bottom: 0.1em;
+  scroll-margin-top: 7rem;
+}
+
+.prose-clinic h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  line-height: 1.3;
+  color: var(--color-ink);
+  margin-top: 1.9em;
+  margin-bottom: 0.1em;
+  scroll-margin-top: 7rem;
+}
+
+.prose-clinic strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.prose-clinic a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-marigold);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.2s;
+}
+
+.prose-clinic a:hover {
+  color: var(--color-marigold);
+}
+
+.prose-clinic ul,
+.prose-clinic ol {
+  padding-left: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.prose-clinic ul {
+  list-style: none;
+}
+
+.prose-clinic ul > li {
+  position: relative;
+}
+
+.prose-clinic ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.15rem;
+  top: 0.75em;
+  width: 0.45rem;
+  height: 1px;
+  background: var(--color-marigold);
+}
+
+.prose-clinic ol {
+  list-style: decimal;
+}
+
+.prose-clinic ol > li::marker {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  color: var(--color-marigold);
+}
+
+.prose-clinic blockquote {
+  border-left: 2px solid var(--color-marigold);
+  padding: 0.1rem 0 0.1rem 1.25rem;
+  margin-block: 2em;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+.prose-clinic code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--color-paper-sunk);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+
+.prose-clinic hr {
+  border: 0;
+  height: 1px;
+  background: var(--color-line);
+  margin-block: 2.5em;
+}
+
+.prose-clinic img {
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.prose-clinic table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.94rem;
+}
+
+.prose-clinic th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.prose-clinic td {
+  padding: 0.7rem 0.75rem 0.7rem 0;
+  border-bottom: 1px solid var(--color-line-soft);
+  vertical-align: top;
+}
+
+/* Anchor links injected by rehype-autolink-headings */
+.prose-clinic .heading-anchor {
+  color: var(--color-marigold);
+  opacity: 0;
+  margin-left: 0.4rem;
+  text-decoration: none;
+  font-weight: 400;
+  transition: opacity 0.2s;
+}
+
+.prose-clinic h2:hover .heading-anchor,
+.prose-clinic h3:hover .heading-anchor,
+.prose-clinic .heading-anchor:focus-visible {
+  opacity: 1;
 }
