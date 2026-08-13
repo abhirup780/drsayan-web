@@ -3,7 +3,7 @@
 A production-ready personal practice website. Next.js 16 (App Router) · React 19 · TypeScript ·
 Tailwind CSS v4 · Motion · MDX.
 
-**Live:** <https://dr-sayan-website.vercel.app>
+**Live:** <https://www.drsayan.in>
 
 ```bash
 npm install
@@ -12,20 +12,26 @@ npm run check    # typecheck + lint + production build
 npx vercel --prod   # deploy
 ```
 
-### Going live on the real domain
+### The canonical domain
 
-The site works out what its own canonical URL is, so a shared preview advertises itself correctly
-rather than a domain that does not exist yet. Two things happen automatically when the real domain
-is attached:
+The site works out its own canonical URL rather than having it hard-coded, so a preview deploy
+advertises itself correctly instead of pointing at a domain that does not exist yet:
 
-1. Add the domain in the Vercel project, then set `NEXT_PUBLIC_SITE_URL` to it (for example
-   `https://drsayanbanerjee.com`) in the project's environment variables and redeploy.
-2. Canonical tags, Open Graph images, the sitemap and structured data all follow that value.
+1. `NEXT_PUBLIC_SITE_URL` (set in the Vercel project's production environment variables) wins if
+   present. It is currently `https://www.drsayan.in`.
+2. Otherwise it falls back to the Vercel deployment URL, so `.vercel.app` previews still work.
+3. Failing that, a hard-coded placeholder in `src/lib/site.ts`.
 
-**While the site is on a `*.vercel.app` URL it is deliberately `noindex` and `robots.txt` disallows
-everything.** Sharing the link is unaffected; it only stops Google filing the preview away, where it
-would later compete with the real domain for the practice's own name. Setting `NEXT_PUBLIC_SITE_URL`
-turns indexing on.
+Canonical tags, Open Graph images, the sitemap, `robots.txt` and structured data all follow
+whichever URL wins.
+
+**Any deploy *not* on the real domain is automatically `noindex`, and `robots.txt` disallows
+everything.** That guard is keyed off `NEXT_PUBLIC_SITE_URL` containing `.vercel.app` — see
+`isCanonicalDomain` in `src/lib/site.ts` — so a stray preview can never get indexed and end up
+competing with `www.drsayan.in` for the practice's own name. Sharing a preview link is unaffected.
+
+The apex domain `drsayan.in` 308-redirects to `www.drsayan.in`, which is what every canonical,
+sitemap entry and structured-data `@id` on the site points at.
 
 ---
 
