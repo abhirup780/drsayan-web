@@ -159,14 +159,16 @@ export function SiteHeader() {
           <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-6 lg:gap-3">
             {/* Below lg the utility strip is hidden, so language and theme
                 fall back into the main bar alongside the menu button. */}
+            {/* Visible at every width including the narrowest phones. On a
+                practice serving Bengali-speaking families the language switch
+                earns bar space ahead of a theme toggle, so below sm the
+                toggle moves into the menu and this stays. Compact sizing
+                keeps the row inside 375px. */}
             <Link
               href={bengaliPage.href}
               lang="bn"
               className={cn(
-                // Hidden on the narrowest phones, where the logo, theme
-                // toggle and menu button already fill the bar. It is still in
-                // the mobile menu, so nothing becomes unreachable.
-                "hidden h-9 shrink-0 items-center rounded-full border px-3.5 text-[0.85rem] whitespace-nowrap transition-colors sm:inline-flex lg:hidden",
+                "inline-flex h-9 shrink-0 items-center rounded-full border px-3 text-[0.8rem] whitespace-nowrap transition-colors sm:px-3.5 sm:text-[0.85rem] lg:hidden",
                 pathname === bengaliPage.href
                   ? "border-marigold bg-marigold text-white dark:text-paper"
                   : "border-marigold/40 text-marigold hover:border-marigold"
@@ -174,7 +176,7 @@ export function SiteHeader() {
             >
               {bengaliPage.label}
             </Link>
-            <span className="lg:hidden">
+            <span className="hidden sm:block lg:hidden">
               <ThemeToggle />
             </span>
 
@@ -284,6 +286,14 @@ export function SiteHeader() {
                 >
                   Call {contact.phoneDisplay}
                 </a>
+
+                {/* The toggle is hidden from the bar below sm so the Bengali
+                    pill can keep its place there, so it lives here instead
+                    and is never unreachable on a phone. */}
+                <div className="mt-2 flex items-center justify-between border-t border-line pt-5 sm:hidden">
+                  <span className="label">Appearance</span>
+                  <ThemeToggle />
+                </div>
               </div>
             </nav>
           </motion.div>
