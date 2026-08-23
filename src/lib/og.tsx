@@ -10,14 +10,22 @@ const MARIGOLD = "#b85c17";
 const FAINT = "#78838a";
 
 /**
- * Loads a display face for the social card. If the network is unavailable at
- * build time the card still renders — just in the runtime's default font —
- * rather than failing the whole build over a decoration.
+ * Loads a face for the social card from Google Fonts.
+ *
+ * The spoofed User-Agent matters: to a modern browser string Google serves
+ * woff2, which satori cannot parse. To this one it serves ttf.
+ *
+ * If the network is unavailable at build time the card still renders — just
+ * in the runtime's default font — rather than failing the whole build over a
+ * decoration.
  */
-async function loadFont(): Promise<{ name: string; data: ArrayBuffer }[]> {
+async function loadFont(
+  family: string,
+  name: string
+): Promise<{ name: string; data: ArrayBuffer }[]> {
   try {
     const css = await fetch(
-      "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap",
+      `https://fonts.googleapis.com/css2?family=${family}&display=swap`,
       { headers: { "User-Agent": "Mozilla/5.0 (compatible; og-image-generator)" } }
     ).then((r) => r.text());
 
@@ -25,7 +33,7 @@ async function loadFont(): Promise<{ name: string; data: ArrayBuffer }[]> {
     if (!url) return [];
 
     const data = await fetch(url).then((r) => r.arrayBuffer());
-    return [{ name: "Fraunces", data }];
+    return [{ name, data }];
   } catch {
     return [];
   }
@@ -60,6 +68,22 @@ function Curves() {
   );
 }
 
+/**
+ * Renders a social card.
+ *
+ * LATIN SCRIPT ONLY. Do not pass Bengali (or Devanagari) text here, however
+ * tempting it is for the /bn card. `next/og` renders through satori, which
+ * has no HarfBuzz and therefore does no complex text shaping: Bengali
+ * pre-base vowel signs are not reordered and conjuncts are not formed, so
+ * বেড়ে comes out as বড়ে with the e-kar stranded after its consonant. The
+ * font loads fine; the glyphs are simply placed in logical rather than
+ * visual order, and the result is misspelt to a Bengali reader.
+ *
+ * Loading Noto Serif Bengali does not help, because the problem is shaping,
+ * not coverage. A genuine Bengali card needs a pre-rendered PNG produced by
+ * something with a shaping engine, dropped into /public and referenced from
+ * that page's `openGraph.images`.
+ */
 export async function renderOgImage({
   eyebrow,
   title,
@@ -69,8 +93,19 @@ export async function renderOgImage({
   title: string;
   meta?: string;
 }) {
-  const fonts = await loadFont();
+  const fonts = await loadFont("Fraunces:opsz,wght@9..144,400;9..144,600", "Fraunces");
   const display = fonts.length > 0 ? "Fraunces" : "serif";
+
+  const caps = { letterSpacing: 5, textTransform: "uppercase" as const };
+  const capsSmall = { letterSpacing: 3, textTransform: "uppercase" as const };
+
+  const name = site.name;
+  const quals = site.qualifications;
+  // City alone. "Paediatric Endocrinologist · Kolkata" is ~540px at this
+  // size, which either wrapped into the qualifications beside it or, once
+  // pinned, ran off the right edge. The role is already in the eyebrow on
+  // every card, so the corner just stamps the place.
+  const badge = site.city;
 
   return new ImageResponse(
     (
@@ -101,10 +136,9 @@ export async function renderOgImage({
           <div
             style={{
               fontSize: 22,
-              letterSpacing: 5,
-              textTransform: "uppercase",
               color: FAINT,
               display: "flex",
+              ...caps,
             }}
           >
             {eyebrow}
@@ -125,7 +159,16 @@ export async function renderOgImage({
             {title}
           </div>
           {meta && (
-            <div style={{ marginTop: 28, fontSize: 26, color: FAINT, display: "flex" }}>{meta}</div>
+            <div
+              style={{
+                marginTop: 28,
+                fontSize: 26,
+                color: FAINT,
+                display: "flex",
+              }}
+            >
+              {meta}
+            </div>
           )}
         </div>
 
@@ -140,22 +183,35 @@ export async function renderOgImage({
         >
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ fontFamily: display, fontSize: 32, color: INK, display: "flex" }}>
-              {site.name}
+              {name}
             </div>
-            <div style={{ marginTop: 8, fontSize: 21, color: FAINT, display: "flex" }}>
-              {site.qualifications}
+            <div
+              style={{
+                marginTop: 8,
+                fontSize: 21,
+                color: FAINT,
+                display: "flex",
+              }}
+            >
+              {quals}
             </div>
           </div>
+          {/* The badge wraps to two lines at this length and its second line
+              collided with the qualifications beside it. Pinning it to the
+              right and letting the name block take the slack keeps the two
+              apart. */}
           <div
             style={{
-              fontSize: 21,
-              letterSpacing: 3,
-              textTransform: "uppercase",
+              fontSize: 20,
               color: MARIGOLD,
               display: "flex",
+              flexShrink: 0,
+              textAlign: "right",
+              marginLeft: 40,
+              ...capsSmall,
             }}
           >
-            {site.shortRole} · {site.city}
+            {badge}
           </div>
         </div>
       </div>
