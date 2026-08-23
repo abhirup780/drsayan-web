@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { credentials, site } from "@/lib/site";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "About Dr. Sayan Banerjee",
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
     "DM-trained at PGIMER Chandigarh, now practising paediatric and adolescent endocrinology in Kolkata. Training, approach and the principles behind the clinic.",
   alternates: { canonical: "/about" },
   openGraph: {
+    ...ogDefaults,
     title: "About Dr. Sayan Banerjee · Paediatric Endocrinologist, Kolkata",
     description:
       "Training at PGIMER Chandigarh, an approach built on time and measurement, and the principles behind the clinic.",

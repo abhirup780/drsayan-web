@@ -7,6 +7,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { publicationStats, publicationsByYear, type Publication } from "@/lib/publications";
 import { contact } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Publications",
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     "Peer-reviewed publications by Dr. Sayan Banerjee in paediatric endocrinology: congenital adrenal hyperplasia, type 1 diabetes, Turner syndrome, precocious puberty, metabolic bone disease and monogenic disorders.",
   alternates: { canonical: "/publications" },
   openGraph: {
+    ...ogDefaults,
     title: "Publications · Dr. Sayan Banerjee",
     description: "Peer-reviewed research in paediatric endocrinology.",
     url: "/publications",

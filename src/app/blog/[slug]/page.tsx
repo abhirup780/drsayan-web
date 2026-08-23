@@ -22,6 +22,7 @@ import {
 import { contact, site } from "@/lib/site";
 import { extractToc } from "@/lib/toc";
 import { formatDate } from "@/lib/utils";
+import { ogDefaults } from "@/lib/metadata";
 
 export function generateStaticParams() {
   return getPostSlugs().map((slug) => ({ slug }));
@@ -41,6 +42,7 @@ export async function generateMetadata(
     keywords: post.tags,
     alternates: { canonical: url },
     openGraph: {
+    ...ogDefaults,
       type: "article",
       url,
       title: post.title,

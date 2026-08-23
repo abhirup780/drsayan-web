@@ -9,6 +9,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { clinics, contact, emergencyNote, outreachClinics, outreachNote, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Contact & appointments",
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
     "Book a paediatric endocrinology consultation in Kolkata with Dr. Sayan Banerjee at Neotia Bhagirathi Woman and Child Care Centre, New Town. Address, phone and appointment requests.",
   alternates: { canonical: "/contact" },
   openGraph: {
+    ...ogDefaults,
     title: "Contact & appointments · Dr. Sayan Banerjee",
     description:
       "Clinic addresses, timings and appointment requests for paediatric endocrinology in Kolkata.",

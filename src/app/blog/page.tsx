@@ -13,6 +13,7 @@ import {
   getSearchIndex,
 } from "@/lib/blog";
 import { formatDate } from "@/lib/utils";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "The Blog",
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
     "Long-form notes on childhood growth, diabetes, thyroid, puberty and bone health, written for parents by a paediatric endocrinologist in Kolkata.",
   alternates: { canonical: "/blog" },
   openGraph: {
+    ...ogDefaults,
     title: "The Blog · Dr. Sayan Banerjee",
     description:
       "Long-form notes on childhood growth, diabetes, thyroid, puberty and bone health, written for parents.",

@@ -10,6 +10,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { bringList, clinics, contact, outreachClinics, outreachNote } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Your visit",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     "What happens at a paediatric endocrinology consultation, what to bring, and how to prepare a child for measurement and tests.",
   alternates: { canonical: "/visit" },
   openGraph: {
+    ...ogDefaults,
     title: "Your visit, Dr. Sayan Banerjee",
     description:
       "Exactly what happens at a paediatric endocrinology consultation, and how to prepare for it.",

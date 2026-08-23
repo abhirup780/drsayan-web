@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/container";
 import { PageHeader } from "@/components/ui/page-header";
 import { CATEGORIES, getCategoriesWithCounts, getCategory, getPostsByCategory } from "@/lib/blog";
 import { cn } from "@/lib/utils";
+import { ogDefaults } from "@/lib/metadata";
 
 export function generateStaticParams() {
   return CATEGORIES.map((c) => ({ category: c.slug }));
@@ -25,6 +26,7 @@ export async function generateMetadata(
     description: category.description,
     alternates: { canonical: `/blog/category/${category.slug}` },
     openGraph: {
+    ...ogDefaults,
       title: `${category.name} · The Blog`,
       description: category.description,
       url: `/blog/category/${category.slug}`,

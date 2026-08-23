@@ -8,6 +8,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/ui/container";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { clinics, contact, outreachClinics, site } from "@/lib/site";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "বাংলা",
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
     "ডাঃ সায়ন বন্দ্যোপাধ্যায়, কলকাতার শিশু ও কৈশোরের হরমোন বিশেষজ্ঞ। উচ্চতা, থাইরয়েড, ডায়াবিটিস, বয়ঃসন্ধি ও মেটাবলিক সমস্যায় শিশুদের চিকিৎসা।",
   alternates: { canonical: "/bn" },
   openGraph: {
+    ...ogDefaults,
     title: "ডাঃ সায়ন বন্দ্যোপাধ্যায় · শিশু হরমোন বিশেষজ্ঞ",
     description: "কলকাতা ও পশ্চিমবঙ্গের সাতটি শহরে শিশুদের হরমোন চিকিৎসা।",
     url: "/bn",

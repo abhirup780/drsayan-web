@@ -9,6 +9,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { contact, mediaAppearances } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Media & press",
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
     "Talks and press appearances by Dr. Sayan Banerjee, paediatric endocrinologist: diabetes and diabetic ketoacidosis in children, and comment in The Telegraph and News18 Bengali on childhood growth and nutrition.",
   alternates: { canonical: "/media" },
   openGraph: {
+    ...ogDefaults,
     title: "Media & press · Dr. Sayan Banerjee",
     description: "Talks on childhood diabetes, and press comment on growth and nutrition.",
     url: "/media",

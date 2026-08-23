@@ -10,6 +10,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { getCategoriesWithCounts } from "@/lib/blog";
 import { contact, emergencyNote } from "@/lib/site";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Resources for parents",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     "Guides, checklists and templates for families: growth charts explained, preparing for hormone tests, a type 1 diabetes school plan, puberty timelines and vitamin D guidance.",
   alternates: { canonical: "/resources" },
   openGraph: {
+    ...ogDefaults,
     title: "Resources for parents · Dr. Sayan Banerjee",
     description: "Guides, checklists and one-page templates for families under endocrine care.",
     url: "/resources",

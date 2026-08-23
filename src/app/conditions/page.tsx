@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/container";
 import { PageHeader } from "@/components/ui/page-header";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { conditionGroups } from "@/lib/site";
+import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Conditions treated",
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     "Growth and short stature, type 1 and type 2 diabetes, thyroid disease, early and delayed puberty, obesity, rickets, adrenal and pituitary disorders. The full range of paediatric endocrine conditions treated in Kolkata.",
   alternates: { canonical: "/conditions" },
   openGraph: {
+    ...ogDefaults,
     title: "Conditions treated · Dr. Sayan Banerjee",
     description:
       "The full range of childhood and adolescent endocrine conditions seen at the clinic, grouped and explained.",

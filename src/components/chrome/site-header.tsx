@@ -52,9 +52,13 @@ export function SiteHeader() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-500 [transition-timing-function:var(--ease-out-expo)]",
-          scrolled
-            ? "border-b border-line bg-paper/85 backdrop-blur-xl supports-backdrop-filter:bg-paper/70"
-            : "border-b border-transparent"
+          // Opaque while the sheet is open: the sheet scrolls beneath this
+          // bar, and a transparent header let the list show through it.
+          open
+            ? "border-b border-line bg-paper"
+            : scrolled
+              ? "border-b border-line bg-paper/85 backdrop-blur-xl supports-backdrop-filter:bg-paper/70"
+              : "border-b border-transparent"
         )}
       >
         {/* ── Utility strip ─────────────────────────────────────
@@ -236,9 +240,14 @@ export function SiteHeader() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
+            {/* Scrolls, and starts below the header rather than centring.
+                With nine links plus the contact buttons the content is taller
+                than a phone viewport, and `justify-center` pushed the first
+                two items up underneath the bar where they could not be read
+                or tapped. */}
             <nav
               aria-label="Mobile"
-              className="flex h-full flex-col justify-center gap-1 px-6 pt-20 pb-10"
+              className="flex h-full flex-col gap-1 overflow-y-auto overscroll-contain px-6 pt-24 pb-10"
             >
               {[{ href: "/", label: "Home" }, ...nav, bengaliPage].map((item, i) => (
                 <motion.div
@@ -249,11 +258,11 @@ export function SiteHeader() {
                 >
                   <Link
                     href={item.href}
-                    className="flex items-baseline gap-4 border-b border-line-soft py-4"
+                    className="flex items-baseline gap-4 border-b border-line-soft py-3.5"
                   >
                     <span className="label w-6 shrink-0">{String(i + 1).padStart(2, "0")}</span>
                     <span
-                      className="font-display text-3xl"
+                      className="font-display text-[1.75rem] leading-tight sm:text-3xl"
                       lang={item.href === bengaliPage.href ? "bn" : undefined}
                     >
                       {item.label}
