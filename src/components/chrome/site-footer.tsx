@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Monogram } from "@/components/motif/monogram";
+import { WhatsAppIcon } from "@/components/motif/whatsapp-icon";
 import { Container } from "@/components/ui/container";
 import { clinics, contact, emergencyNote, nav, outreachClinics, site } from "@/lib/site";
 
@@ -86,9 +87,17 @@ export function SiteFooter() {
               <a href={contact.phoneHref} className="link-underline w-fit text-ink">
                 {contact.phoneDisplay}
               </a>
-              <a href={contact.mobileHref} className="link-underline w-fit text-ink-muted">
-                {contact.mobileDisplay}
-              </a>
+              {contact.whatsappHref && (
+                <a
+                  href={contact.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-underline flex w-fit items-center gap-2 text-ink-muted"
+                >
+                  <WhatsAppIcon className="size-4 shrink-0 text-marigold" />
+                  WhatsApp {contact.whatsappDisplay}
+                </a>
+              )}
               <a href={contact.emailHref} className="link-underline w-fit break-all text-ink-muted">
                 {contact.email}
               </a>
@@ -99,6 +108,14 @@ export function SiteFooter() {
                 className="link-underline w-fit text-ink-muted"
               >
                 Book via the hospital
+              </a>
+              <a
+                href={contact.googleProfileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-underline w-fit text-ink-muted"
+              >
+                Directions &amp; reviews on Google
               </a>
             </div>
           </div>

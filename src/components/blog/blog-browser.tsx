@@ -146,7 +146,7 @@ export function BlogBrowser({
               className={cn(
                 "rounded-full border px-2.5 py-1 text-[0.75rem] transition-colors",
                 activeTag === t.slug
-                  ? "border-marigold bg-marigold text-white dark:text-ink"
+                  ? "border-marigold bg-marigold text-white dark:text-paper"
                   : "border-line text-ink-muted hover:border-marigold hover:text-marigold"
               )}
             >

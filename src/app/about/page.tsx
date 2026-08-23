@@ -152,7 +152,9 @@ export default function AboutPage() {
 
           <RevealGroup as="ol" className="mt-14 border-t border-line">
             {credentials.map((item) => (
-              <RevealItem key={item.title} as="li" className="border-b border-line">
+              // The DM and the Fellowship share a title, so the qualification
+              // has to be part of the key for React to tell them apart.
+              <RevealItem key={`${item.year}-${item.title}`} as="li" className="border-b border-line">
                 <div className="grid items-baseline gap-x-8 gap-y-2 py-7 md:grid-cols-12">
                   <span className="font-display text-3xl text-marigold md:col-span-2">
                     {item.year}

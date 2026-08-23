@@ -9,8 +9,10 @@ import { BlogPreview } from "@/components/home/blog-preview";
 import { OutreachClinics } from "@/components/home/outreach-clinics";
 import { PercentileExplainer } from "@/components/home/percentile-explainer";
 import { PracticeIntro } from "@/components/home/practice-intro";
+import { PressStrip } from "@/components/home/press-strip";
 import { ResourceShelf } from "@/components/home/resource-shelf";
 import { ServicesGrid } from "@/components/home/services-grid";
+import { VideoPreview } from "@/components/home/video-preview";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -24,15 +26,17 @@ export default function HomePage() {
     <>
       <Hero />
       <CredentialBand />
+      <PressStrip />
       <PracticeIntro />
       <ConditionsIndex />
       <PercentileExplainer />
       <ServicesGrid />
       <FirstVisit />
       <OutreachClinics index="06" />
-      <BlogPreview index="07" />
-      <ResourceShelf index="08" limit={4} />
-      <BookingBand index="09" />
+      <VideoPreview index="07" />
+      <BlogPreview index="08" />
+      <ResourceShelf index="09" limit={4} />
+      <BookingBand index="10" />
     </>
   );
 }

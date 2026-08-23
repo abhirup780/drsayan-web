@@ -1,4 +1,11 @@
-import { clinics, contact, outreachClinics, site } from "@/lib/site";
+import {
+  clinics,
+  contact,
+  mediaAppearances,
+  outreachClinics,
+  sameAsProfiles,
+  site,
+} from "@/lib/site";
 
 function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -31,6 +38,29 @@ export function PersonJsonLd() {
             description: site.description,
             telephone: contact.phoneDisplay,
             email: contact.email,
+            // Ties this site to the Google Business Profile and the hospital
+            // channels, so Google treats them as one entity rather than
+            // several competing ones with the same name.
+            sameAs: sameAsProfiles,
+            // Press and talks he is the named subject of. Deliberately no
+            // `aggregateRating` anywhere in this graph: self-published review
+            // markup is against Google's guidelines and risks a manual
+            // action. The Google profile carries the real reviews.
+            subjectOf: mediaAppearances.map((item) => ({
+              "@type": item.kind === "video" ? "VideoObject" : "NewsArticle",
+              name: item.title,
+              headline: item.title,
+              url: item.url,
+              ...(item.date ? { datePublished: item.date } : {}),
+              inLanguage: item.lang === "bn" ? "bn-IN" : "en-IN",
+              publisher: { "@type": "Organization", name: item.outlet },
+              ...(item.videoId
+                ? {
+                    thumbnailUrl: `${site.url}${item.poster}`,
+                    embedUrl: `https://www.youtube-nocookie.com/embed/${item.videoId}`,
+                  }
+                : {}),
+            })),
             // Kolkata is the base; the monthly OPDs are why families in the
             // districts can find him at all, so every town is listed.
             areaServed: [
@@ -113,7 +143,9 @@ export function PersonJsonLd() {
             url: contact.bookingUrl,
             image: `${site.url}/portraits/portrait-hero.jpg`,
             telephone: contact.phoneDisplay,
-            email: contact.email,
+            // The hospital's own front desk, not the practice inbox: this
+            // node describes Neotia, and Google files it against the hospital.
+            email: contact.hospitalEmail,
             medicalSpecialty: "PediatricEndocrinology",
             address: {
               "@type": "PostalAddress",
@@ -123,6 +155,16 @@ export function PersonJsonLd() {
               postalCode: "700156",
               addressCountry: "IN",
             },
+            ...(clinics[0].geo
+              ? {
+                  geo: {
+                    "@type": "GeoCoordinates",
+                    latitude: clinics[0].geo.lat,
+                    longitude: clinics[0].geo.lng,
+                  },
+                  hasMap: clinics[0].mapsUrl,
+                }
+              : {}),
             // No `openingHoursSpecification` until the OPD timings are
             // confirmed with the hospital. Publishing guessed hours here
             // would surface them in Google and send families at the wrong
@@ -191,6 +233,59 @@ export function ArticleJsonLd({
         reviewedBy: { "@id": `${site.url}/#physician` },
         isPartOf: { "@id": `${site.url}/#website` },
         mainEntityOfPage: url,
+      }}
+    />
+  );
+}
+
+/**
+ * The /media page as a collection, with each talk and press piece as an item.
+ *
+ * `VideoObject` is what puts a video thumbnail beside the result in search.
+ * `uploadDate` is omitted where we do not know it rather than guessed —
+ * Google would publish the guess.
+ */
+export function MediaJsonLd() {
+  const url = `${site.url}/media`;
+
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": url,
+        url,
+        name: "Media & press",
+        inLanguage: "en-IN",
+        isPartOf: { "@id": `${site.url}/#website` },
+        about: { "@id": `${site.url}/#physician` },
+        hasPart: mediaAppearances.map((item) =>
+          item.kind === "video"
+            ? {
+                "@type": "VideoObject",
+                name: item.title,
+                description: item.note,
+                url: item.url,
+                thumbnailUrl: `${site.url}${item.poster}`,
+                embedUrl: `https://www.youtube-nocookie.com/embed/${item.videoId}`,
+                ...(item.date ? { uploadDate: item.date } : {}),
+                inLanguage: "en-IN",
+                publisher: { "@type": "Organization", name: item.outlet },
+                about: { "@id": `${site.url}/#physician` },
+              }
+            : {
+                "@type": "NewsArticle",
+                headline: item.title,
+                url: item.url,
+                ...(item.date ? { datePublished: item.date } : {}),
+                inLanguage: item.lang === "bn" ? "bn-IN" : "en-IN",
+                publisher: { "@type": "Organization", name: item.outlet },
+                ...(item.byline
+                  ? { author: { "@type": "Person", name: item.byline } }
+                  : {}),
+                mentions: { "@id": `${site.url}/#physician` },
+              }
+        ),
       }}
     />
   );

@@ -145,15 +145,27 @@ export default function VisitPage() {
                     </div>
                     <div className="flex gap-4">
                       <dt className="label w-24 shrink-0">Phone</dt>
-                      <dd className="flex flex-wrap gap-x-3 text-ink">
+                      <dd className="text-ink">
                         <a href={contact.phoneHref} className="link-underline">
                           {contact.phoneDisplay}
                         </a>
-                        <a href={contact.mobileHref} className="link-underline">
-                          {contact.mobileDisplay}
-                        </a>
                       </dd>
                     </div>
+                    {contact.whatsappHref && (
+                      <div className="flex gap-4">
+                        <dt className="label w-24 shrink-0">WhatsApp</dt>
+                        <dd className="text-ink">
+                          <a
+                            href={contact.whatsappHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="link-underline"
+                          >
+                            {contact.whatsappDisplay}
+                          </a>
+                        </dd>
+                      </div>
+                    )}
                   </dl>
 
                   <div className="mt-6 flex flex-wrap gap-4">

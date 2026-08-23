@@ -24,9 +24,9 @@ export default function PrivacyPage() {
       <Container width="text" className="prose-clinic pb-24 sm:pb-32">
         <h2>No tracking, no advertising</h2>
         <p>
-          This website does not set advertising cookies, does not run behavioural analytics, and
-          does not embed third-party trackers. Fonts are self-hosted and served from this domain,
-          so loading a page does not tell any font provider that you visited.
+          This website does not set advertising cookies and does not run behavioural analytics.
+          Fonts are self-hosted and served from this domain, so loading a page does not tell any
+          font provider that you visited.
         </p>
         <p>
           The only value stored in your browser is your light or dark theme preference, kept in
@@ -34,17 +34,34 @@ export default function PrivacyPage() {
           at any time.
         </p>
 
-        <h2>The appointment form</h2>
+        <h2>Content embedded from Google and YouTube</h2>
         <p>
-          The appointment request form does not submit anything to this website. It assembles the
-          details you type into a message and hands that message to WhatsApp or your own email
-          application, where you choose whether to send it. Nothing you type is stored on this
-          site or passed to any form service.
+          Two pages carry content served by Google, and it is worth being precise about when that
+          happens.
         </p>
         <p>
-          Once you send that message, it is governed by the privacy policy of the service you
-          used, WhatsApp or your email provider, and by the clinic&rsquo;s handling of patient
-          communications.
+          The <a href="/contact">contact page</a> shows a Google map of the clinic. It is not
+          requested until you scroll it into view, so if you read the phone number and leave, no
+          request to Google is made. Once it does load, Google may set cookies and will know your
+          IP address and that you loaded a map.
+        </p>
+        <p>
+          The <a href="/media">media page</a> lists recorded talks hosted on YouTube. Nothing is
+          loaded from YouTube unless you press play: until then the page shows a still image
+          served from this domain. Pressing play loads the player from
+          youtube-nocookie.com, YouTube&rsquo;s reduced-tracking host.
+        </p>
+        <p>
+          In both cases, what happens after the content loads is governed by Google&rsquo;s
+          privacy policy rather than this one.
+        </p>
+
+        <h2>Getting in touch</h2>
+        <p>
+          This website has no contact form and collects nothing you type. The contact page lists a
+          phone number, an email address and a link to the hospital&rsquo;s own booking page, and
+          you choose which to use. Anything you then send is governed by the privacy policy of the
+          service you used and by the clinic&rsquo;s handling of patient communications.
         </p>
 
         <h2>Clinical records</h2>

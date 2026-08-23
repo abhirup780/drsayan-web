@@ -9,8 +9,12 @@ const base =
   "group relative inline-flex items-center justify-center gap-2.5 rounded-full font-medium transition-all duration-300 [transition-timing-function:var(--ease-out-expo)] whitespace-nowrap";
 
 const variants: Record<Variant, string> = {
+  // On marigold the label must be `paper`, never `ink`. In dark mode the
+  // tokens swap — ink becomes light cream — so `dark:text-ink` over the light
+  // dark-mode marigold measures 1.65:1, well under the 4.5:1 minimum.
+  // `paper` is dark in dark mode and gives 9.15:1.
   solid:
-    "bg-ink text-paper hover:bg-marigold hover:text-white dark:hover:text-ink shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]",
+    "bg-ink text-paper hover:bg-marigold hover:text-white dark:hover:text-paper shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]",
   outline: "border border-line text-ink hover:border-marigold hover:text-marigold",
   ghost: "text-ink-muted hover:text-marigold",
 };
@@ -28,6 +32,8 @@ type Props = {
   className?: string;
   external?: boolean;
   withArrow?: boolean;
+  /** Sits before the label, inside the button's flex gap. */
+  icon?: React.ReactNode;
   "aria-label"?: string;
 };
 
@@ -39,10 +45,12 @@ export function Cta({
   className,
   external,
   withArrow = true,
+  icon,
   ...rest
 }: Props) {
   const content = (
     <>
+      {icon}
       <span>{children}</span>
       {withArrow && (
         <svg

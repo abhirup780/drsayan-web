@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Monogram } from "@/components/motif/monogram";
+import { WhatsAppIcon } from "@/components/motif/whatsapp-icon";
 import { ThemeToggle } from "@/components/chrome/theme-toggle";
-import { contact, nav, site } from "@/lib/site";
+import { bengaliPage, contact, nav, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -56,10 +57,55 @@ export function SiteHeader() {
             : "border-b border-transparent"
         )}
       >
+        {/* ── Utility strip ─────────────────────────────────────
+            Contact details, language and theme live here rather than in the
+            main bar. Seven nav items plus two phone numbers plus a CTA does
+            not fit on one line at any realistic width — it was wrapping every
+            label onto two lines. Giving the numbers their own row also gives
+            them more prominence, not less.
+
+            It collapses to nothing on scroll, so the header shrinks to the
+            compact bar once you are reading. */}
+        <div
+          className={cn(
+            // The row must clear the 36px ThemeToggle with room to spare —
+            // at h-9 the button exactly filled it and its border was clipped
+            // by the overflow-hidden this collapse animation needs.
+            "hidden overflow-hidden border-b border-line-soft bg-paper-sunk/80 transition-all duration-500 [transition-timing-function:var(--ease-out-expo)] lg:block",
+            scrolled ? "h-0 opacity-0" : "h-11 opacity-100"
+          )}
+        >
+          <div className="mx-auto flex h-11 w-full max-w-[92rem] items-center justify-end gap-5 px-8">
+            {contact.whatsappHref && (
+              <a
+                href={contact.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Message Dr. Banerjee on WhatsApp at ${contact.whatsappDisplay}`}
+                className="link-underline flex shrink-0 items-center gap-2 text-[0.8rem] whitespace-nowrap text-ink-muted transition-colors hover:text-marigold"
+              >
+                <WhatsAppIcon className="size-3.5 shrink-0 text-marigold" />
+                {contact.whatsappDisplay}
+              </a>
+            )}
+
+            <span aria-hidden="true" className="h-3 w-px shrink-0 bg-line" />
+
+            <a
+              href={contact.phoneHref}
+              className="link-underline shrink-0 text-[0.8rem] whitespace-nowrap text-ink-muted transition-colors hover:text-marigold"
+            >
+              {contact.phoneDisplay}
+            </a>
+
+            <ThemeToggle />
+          </div>
+        </div>
+
         <div className="mx-auto flex h-16 w-full max-w-[92rem] items-center gap-6 px-5 sm:h-20 sm:px-8">
           <Link
             href="/"
-            className="flex items-center gap-3 text-ink"
+            className="flex shrink-0 items-center gap-3 text-ink"
             aria-label={`${site.name}, home`}
           >
             <Monogram className="w-9 shrink-0 sm:w-10" />
@@ -73,7 +119,7 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          <nav aria-label="Primary" className="ml-auto hidden items-center gap-7 lg:flex">
+          <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex xl:gap-7">
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
@@ -82,7 +128,7 @@ export function SiteHeader() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "link-underline text-[0.9rem] transition-colors",
+                    "link-underline shrink-0 text-[0.9rem] whitespace-nowrap transition-colors",
                     active ? "text-marigold" : "text-ink-muted hover:text-ink"
                   )}
                 >
@@ -90,19 +136,63 @@ export function SiteHeader() {
                 </Link>
               );
             })}
+
+            {/* The Bengali page sits with the other pages rather than in the
+                contact strip: it is a page of the site, not a utility. The
+                capsule sets it apart from the English links without needing a
+                divider, and gives the language switch the weight it deserves
+                on a practice serving Bengali-speaking families. */}
+            <Link
+              href={bengaliPage.href}
+              lang="bn"
+              className={cn(
+                "inline-flex h-8 shrink-0 items-center rounded-full border px-4 text-[0.95rem] leading-none whitespace-nowrap transition-colors",
+                pathname === bengaliPage.href
+                  ? "border-marigold bg-marigold text-white dark:text-paper"
+                  : "border-marigold/40 text-marigold hover:border-marigold hover:bg-marigold hover:text-white dark:hover:text-paper"
+              )}
+            >
+              {bengaliPage.label}
+            </Link>
           </nav>
 
-          <div className="ml-auto flex items-center gap-2 lg:ml-0 lg:gap-3">
-            <ThemeToggle />
-            <a
-              href={contact.phoneHref}
-              className="hidden h-9 items-center rounded-full border border-line px-4 text-[0.8125rem] text-ink transition-colors hover:border-marigold hover:text-marigold md:inline-flex"
+          <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-6 lg:gap-3">
+            {/* Below lg the utility strip is hidden, so language and theme
+                fall back into the main bar alongside the menu button. */}
+            <Link
+              href={bengaliPage.href}
+              lang="bn"
+              className={cn(
+                // Hidden on the narrowest phones, where the logo, theme
+                // toggle and menu button already fill the bar. It is still in
+                // the mobile menu, so nothing becomes unreachable.
+                "hidden h-9 shrink-0 items-center rounded-full border px-3.5 text-[0.85rem] whitespace-nowrap transition-colors sm:inline-flex lg:hidden",
+                pathname === bengaliPage.href
+                  ? "border-marigold bg-marigold text-white dark:text-paper"
+                  : "border-marigold/40 text-marigold hover:border-marigold"
+              )}
             >
-              {contact.phoneDisplay}
-            </a>
+              {bengaliPage.label}
+            </Link>
+            <span className="lg:hidden">
+              <ThemeToggle />
+            </span>
+
+            {contact.whatsappHref && (
+              <a
+                href={contact.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Message Dr. Banerjee on WhatsApp at ${contact.whatsappDisplay}`}
+                className="hidden size-9 shrink-0 place-items-center rounded-full border border-line text-ink transition-colors hover:border-marigold hover:text-marigold sm:grid lg:hidden"
+              >
+                <WhatsAppIcon className="size-4 shrink-0 text-marigold" />
+              </a>
+            )}
+
             <Link
               href="/contact#book"
-              className="hidden h-9 items-center rounded-full bg-ink px-4 text-[0.8125rem] font-medium text-paper transition-colors hover:bg-marigold hover:text-white sm:inline-flex dark:hover:text-ink"
+              className="hidden h-9 shrink-0 items-center rounded-full bg-ink px-4 text-[0.8125rem] font-medium whitespace-nowrap text-paper transition-colors hover:bg-marigold hover:text-white sm:inline-flex dark:hover:text-paper"
             >
               Book a visit
             </Link>
@@ -113,7 +203,7 @@ export function SiteHeader() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="grid size-9 place-items-center rounded-full border border-line text-ink transition-colors hover:border-marigold lg:hidden"
+              className="grid size-9 shrink-0 place-items-center rounded-full border border-line text-ink transition-colors hover:border-marigold lg:hidden"
             >
               <span className="relative block h-3 w-4">
                 <span
@@ -148,7 +238,7 @@ export function SiteHeader() {
               aria-label="Mobile"
               className="flex h-full flex-col justify-center gap-1 px-6 pt-20 pb-10"
             >
-              {[{ href: "/", label: "Home" }, ...nav].map((item, i) => (
+              {[{ href: "/", label: "Home" }, ...nav, bengaliPage].map((item, i) => (
                 <motion.div
                   key={item.href}
                   initial={reduce ? false : { opacity: 0, y: 14 }}
@@ -160,12 +250,28 @@ export function SiteHeader() {
                     className="flex items-baseline gap-4 border-b border-line-soft py-4"
                   >
                     <span className="label w-6 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="font-display text-3xl">{item.label}</span>
+                    <span
+                      className="font-display text-3xl"
+                      lang={item.href === bengaliPage.href ? "bn" : undefined}
+                    >
+                      {item.label}
+                    </span>
                   </Link>
                 </motion.div>
               ))}
 
               <div className="mt-8 flex flex-col gap-3">
+                {contact.whatsappHref && (
+                  <a
+                    href={contact.whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-marigold text-[0.9375rem] font-medium text-white dark:text-paper"
+                  >
+                    <WhatsAppIcon className="size-[1.05rem] shrink-0" />
+                    WhatsApp {contact.whatsappDisplay}
+                  </a>
+                )}
                 <Link
                   href="/contact#book"
                   className="inline-flex h-12 items-center justify-center rounded-full bg-ink text-[0.9375rem] font-medium text-paper"

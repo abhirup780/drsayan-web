@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 
 import { GrowthCurve } from "@/components/motif/growth-curve";
 import { GrowthFigures } from "@/components/motif/growth-figures";
+import { WhatsAppIcon } from "@/components/motif/whatsapp-icon";
 import { Container } from "@/components/ui/container";
 import { Cta } from "@/components/ui/cta";
 import { contact, site } from "@/lib/site";
@@ -98,6 +99,17 @@ export function Hero() {
 
             <motion.div {...rise(0.32, reduce)} className="mt-10 flex flex-wrap items-center gap-3">
               <Cta href="/contact#book">Book a visit</Cta>
+              {contact.whatsappHref && (
+                <Cta
+                  href={contact.whatsappHref}
+                  variant="outline"
+                  withArrow={false}
+                  icon={<WhatsAppIcon className="size-[1.05rem] shrink-0 text-marigold" />}
+                  aria-label={`Message Dr. Banerjee on WhatsApp at ${contact.whatsappDisplay}`}
+                >
+                  WhatsApp
+                </Cta>
+              )}
               <Cta href={contact.phoneHref} variant="outline" withArrow={false}>
                 Call {contact.phoneDisplay}
               </Cta>
@@ -157,15 +169,30 @@ export function Hero() {
                 })}
               </div>
 
-              <figure className="w-full max-w-[26rem]">
-                {/* Arch frame — a doorway, not a hospital badge. */}
-                <div className="relative aspect-4/5 overflow-hidden rounded-t-[13rem] rounded-b-xl bg-paper-sunk">
+              {/* The frame was capped at 26rem while its column is nearly
+                  twice that at xl, so the portrait sat well short of the text
+                  column and `items-center` split the difference into dead
+                  space above and below. Letting it grow with the column
+                  brings the two sides to roughly equal height. */}
+              <figure className="w-full max-w-[26rem] lg:max-w-[30rem] xl:max-w-[34rem]">
+                {/* Editorial frame.
+                    This was a semicircular arch: rounded-t-[13rem] against a
+                    26rem width is exactly half the frame, which read as a
+                    niche rather than a portrait, and sat oddly against a 12px
+                    bottom radius.
+
+                    Now one generous radius on the top-left and bottom-right,
+                    tight on the other two. The soft corners fall on the
+                    diagonal the growth curve already travels, and the tight
+                    bottom-left keeps a square corner under the marigold mark
+                    so the badge has something to sit against. */}
+                <div className="relative aspect-4/5 overflow-hidden rounded-tl-[4.5rem] rounded-br-[4.5rem] rounded-tr-2xl rounded-bl-2xl bg-paper-sunk sm:rounded-tl-[6rem] sm:rounded-br-[6rem]">
                   <Image
                     src="/portraits/portrait-hero.jpg"
                     alt="Dr. Sayan Banerjee, paediatric endocrinologist, in a light Nehru jacket over a blue shirt."
                     fill
                     priority
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 60vw, 30vw"
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 60vw, 36vw"
                     className="object-cover object-top"
                   />
                   <div
@@ -179,7 +206,7 @@ export function Hero() {
                     initial={reduce ? false : { scale: 0 }}
                     animate={reduce ? undefined : { scale: 1 }}
                     transition={{ duration: 0.6, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute bottom-4 left-4 grid size-14 place-items-center rounded-full bg-marigold text-white shadow-lg sm:size-16 dark:text-ink"
+                    className="absolute bottom-4 left-4 grid size-14 place-items-center rounded-full bg-marigold text-white shadow-lg sm:size-16 dark:text-paper"
                   >
                     <GrowthFigures className="w-8 sm:w-9" />
                   </motion.span>

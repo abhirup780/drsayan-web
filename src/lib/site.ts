@@ -29,8 +29,10 @@ function resolveSiteUrl(): string {
   const vercelDeployment = process.env.NEXT_PUBLIC_VERCEL_URL;
   if (vercelDeployment) return `https://${vercelDeployment}`;
 
-  // TODO: replace with the real production domain, or set NEXT_PUBLIC_SITE_URL.
-  return "https://drsayanbanerjee.com";
+  // The live domain. Production sets NEXT_PUBLIC_SITE_URL and that wins, but
+  // this is the same value so a missing env var degrades to correct canonical
+  // URLs rather than to a domain that was never registered.
+  return "https://www.drsayan.in";
 }
 
 const resolvedUrl = resolveSiteUrl();
@@ -68,23 +70,166 @@ export const site = {
 export const contact = {
   phoneDisplay: "033 6640 5000",
   phoneHref: "tel:+913366405000",
-  mobileDisplay: "+91 91473 31175",
-  mobileHref: "tel:+919147331175",
-  email: "connect.bnwccc@neotiahealthcare.com",
-  emailHref: "mailto:connect.bnwccc@neotiahealthcare.com",
+  /**
+   * The practice's own address, and the one every "write to us" link and the
+   * appointment form point at. This is the inbox Dr. Banerjee reads.
+   */
+  email: "drsayanpedendo@gmail.com",
+  emailHref: "mailto:drsayanpedendo@gmail.com",
+  /**
+   * The hospital's own front-desk address, kept separate on purpose.
+   *
+   * It belongs to Neotia, not to this practice, so it is what the
+   * `MedicalClinic` node in structured data advertises. Publishing a personal
+   * address as the hospital's contact point would be wrong in both
+   * directions — it misdirects hospital business and it puts a private inbox
+   * into Google's record of the hospital.
+   */
+  hospitalEmail: "connect.bnwccc@neotiahealthcare.com",
+  hospitalEmailHref: "mailto:connect.bnwccc@neotiahealthcare.com",
   /**
    * The hospital's own profile page handles appointment booking.
    * Swap in a different platform here and every "Book" button follows.
    */
   bookingUrl: "https://newtown.neotiahospital.com/doctor/dr-sayan-banerjee",
   /**
-   * TODO: confirm whether the clinic runs a WhatsApp line, then set this to
-   * a full https://wa.me/… URL. While it is null, every WhatsApp option is
-   * hidden automatically rather than pointing somewhere unmonitored.
+   * WhatsApp, straight to Dr. Banerjee rather than to a hospital desk.
+   *
+   * This is the preferred first contact, so it leads every list of channels
+   * on the site. The number is deliberately not published as a `tel:` link:
+   * it is a messaging line, and inviting voice calls to it would set the
+   * wrong expectation about how quickly a reply arrives.
    */
-  whatsappHref: null as string | null,
-  whatsappDisplay: null as string | null,
+  whatsappHref: "https://wa.me/919836665566" as string | null,
+  whatsappDisplay: "+91 98366 65566" as string | null,
+  /**
+   * The Google Business Profile — "Dr Sayan Banerjee | D.M Paediatric
+   * Endocrinologist | New Town". This is the listing families actually find
+   * when they search his name, so it carries the map pin, the reviews and the
+   * directions link.
+   *
+   * Addressed by CID — the listing's permanent numeric id — rather than by a
+   * share.google short link or a /maps/place/ URL carrying session state.
+   * Both of those rot; the CID does not.
+   */
+  googleProfileUrl: "https://maps.google.com/?cid=8757713119497602764",
 } as const;
+
+/**
+ * Profiles that belong to this practice, emitted as `sameAs` in structured
+ * data. This is what lets Google connect drsayan.in to the Business Profile
+ * it already knows about, rather than treating them as two unrelated things.
+ *
+ * Only add a URL here if the practice genuinely controls or is the subject of
+ * it. `sameAs` is an identity claim, not a bookmark list.
+ */
+export const sameAsProfiles: string[] = [
+  contact.googleProfileUrl,
+  contact.bookingUrl,
+  // The hospital channels that host his talks. Not his own channels, but he
+  // is the named subject of the videos on them.
+  "https://www.youtube.com/@NBWCC_NewTown",
+  "https://www.youtube.com/@neotiabhagirathiwomanandch6167",
+  // TODO: add the practice's Facebook page URL once confirmed. The reel at
+  // facebook.com/reel/1673437530543871 is a post, not a profile, so it does
+  // not belong in `sameAs` — it belongs in `mediaAppearances` below.
+];
+
+/* ── Media & press ───────────────────────────────────────────────── */
+
+/**
+ * Talks and press appearances, newest first.
+ *
+ * `video` items get a click-to-load YouTube embed on /media; `press` items are
+ * plain outbound links. Nothing here is reproduced beyond a headline and a
+ * short attributed quote — the traffic goes to the publisher, as it should.
+ */
+export type MediaAppearance = {
+  id: string;
+  kind: "video" | "press";
+  outlet: string;
+  title: string;
+  /**
+   * ISO date, used for display and for `subjectOf` structured data.
+   *
+   * `null` where the publication date is genuinely unknown — YouTube does not
+   * expose an upload date through oEmbed. A guessed date would be published
+   * verbatim into structured data, so absence is the honest option; both the
+   * card and the schema simply omit the date.
+   */
+  date: string | null;
+  url: string;
+  /** BCP-47 tag. Bengali items are marked so screen readers pronounce them. */
+  lang: "en" | "bn";
+  /** A short, attributed pull quote. Never more than a sentence or two. */
+  quote?: string;
+  byline?: string;
+  /** `video` only: the YouTube id and the locally-served poster frame. */
+  videoId?: string;
+  poster?: string;
+  /** A one-line note in our own words on why the piece matters to a parent. */
+  note: string;
+};
+
+export const mediaAppearances: MediaAppearance[] = [
+  {
+    id: "news18-juvenile-diabetes",
+    kind: "press",
+    outlet: "News18 Bengali",
+    title:
+      "জুভেনাইল ডায়াবিটিসে আক্রান্ত ছিলেন নায়িকা সোনম কাপুর, কোন কোন উপসর্গ বুঝিয়ে দেয় আপনার খুদের ব্লাড সুগার বেশি? জানাচ্ছেন চিকিৎসক",
+    date: "2026-07-03",
+    url: "https://bengali.news18.com/photogallery/life-style/diabetes-in-children-early-signs-of-juvenile-diabetes-every-parent-should-know-according-to-a-doctor-rm-2788280.html",
+    lang: "bn",
+    byline: "Rukmini Mazumder",
+    quote:
+      "শিশুদের ক্ষেত্রে ডায়াবেটিসের অন্যতম বড় লক্ষণগুলির মধ্যে একটি হল সবসময় ক্লান্ত লাগা বা শরীরে কোনওরকম কাজ করার এনার্জি না পাওয়া।",
+    note: "The early signs of type 1 diabetes in children, in Bengali.",
+  },
+  {
+    id: "telegraph-milk-health-drinks",
+    kind: "press",
+    outlet: "The Telegraph · My Kolkata",
+    title:
+      "Plain milk or health drinks for kids? Doctors explain what really supports healthy growth",
+    date: "2026-06-29",
+    url: "https://www.telegraphindia.com/my-kolkata/lifestyle/milk-or-health-drinks-what-do-kolkata-doctors-recommend-for-kids/cid/2167755",
+    lang: "en",
+    byline: "Jaismita Alexander",
+    quote: "There is no easy shortcut to healthy growth.",
+    note: "Why no malt drink outgrows a child's own genetic potential.",
+  },
+  {
+    id: "video-dka-silent-emergency",
+    kind: "video",
+    outlet: "Neotia Bhagirathi Woman & Child Care Centre",
+    title: "Diabetic Ketoacidosis in Children: A Silent Emergency",
+    // TODO: set the real upload date from the YouTube studio listing.
+    date: null,
+    url: "https://www.youtube.com/watch?v=m_vGX4euRqQ",
+    lang: "en",
+    videoId: "m_vGX4euRqQ",
+    poster: "/media/video-dka-silent-emergency.jpg",
+    note: "How DKA hides in plain sight, and the signs that mean go now.",
+  },
+  {
+    id: "video-diabetes-in-children",
+    kind: "video",
+    outlet: "Neotia Bhagirathi Woman & Child Care Centre",
+    title: "Diabetes in Children",
+    // TODO: set the real upload date from the YouTube studio listing.
+    date: null,
+    url: "https://www.youtube.com/watch?v=Z-STc2vakjI",
+    lang: "en",
+    videoId: "Z-STc2vakjI",
+    poster: "/media/video-diabetes-in-children.jpg",
+    note: "An introduction for families who have just heard the diagnosis.",
+  },
+  // TODO: the Facebook reel at facebook.com/reel/1673437530543871 is not
+  // listed yet — Facebook requires a login to read it, so its date, caption
+  // and whether it is his own clip or a hospital repost are all unconfirmed.
+  // Fill those in and add it here as a `press` item.
+];
 
 export type Clinic = {
   id: string;
@@ -97,6 +242,8 @@ export type Clinic = {
   mapsUrl: string;
   phoneDisplay: string;
   phoneHref: string;
+  /** Decimal degrees, taken from the Google Business Profile's own pin. */
+  geo?: { lat: number; lng: number };
 };
 
 export const clinics: Clinic[] = [
@@ -113,10 +260,12 @@ export const clinics: Clinic[] = [
     days: "By appointment",
     hours: "Please call the hospital for current OPD timings",
     note: "Appointments can be booked through the hospital, by phone or online.",
-    mapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=Neotia+Bhagirathi+Woman+and+Child+Care+Centre+New+Town+Kolkata",
+    // The Business Profile's own pin, not a name search. A search URL can
+    // land on the wrong building; a CID lands on the exact listing.
+    mapsUrl: "https://maps.google.com/?cid=8757713119497602764",
     phoneDisplay: "033 6640 5000",
     phoneHref: "tel:+913366405000",
+    geo: { lat: 22.5801151, lng: 88.4754942 },
   },
 ];
 
@@ -188,7 +337,12 @@ export const nav = [
   { href: "/visit", label: "Your Visit" },
   { href: "/resources", label: "Resources" },
   { href: "/blog", label: "Blog" },
+  { href: "/publications", label: "Publications" },
+  { href: "/media", label: "Media" },
 ] as const;
+
+/** The Bengali summary of the whole site, linked from the header. */
+export const bengaliPage = { href: "/bn", label: "বাংলা" } as const;
 
 /* ── Credentials ─────────────────────────────────────────────────── */
 

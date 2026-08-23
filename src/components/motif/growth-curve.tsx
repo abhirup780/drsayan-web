@@ -110,12 +110,21 @@ export function CurveDivider({ className, flip = false }: { className?: string; 
   // path whose initial state is `pathLength: 0` renders no geometry, so an
   // observer attached to it would have nothing to intersect and would never
   // fire — the animation would deadlock at invisible.
+  //
+  // `initial` and `whileInView` stay constant regardless of `reduce`, and the
+  // reduction is expressed in the transition instead. Switching them (to
+  // `false`/`undefined`) mid-life left motion with no target variant once
+  // useReducedMotion resolved from null to a boolean, so it animated the
+  // paths back toward a base state it had never read — the "animate opacity
+  // from undefined to 0" warning. `Reveal` already handles it this way.
+  const duration = reduce ? 0 : undefined;
+
   return (
     <motion.div
       aria-hidden="true"
       className={cn("flex items-end gap-4", flip && "flex-row-reverse", className)}
-      initial={reduce ? false : "hidden"}
-      whileInView={reduce ? undefined : "shown"}
+      initial="hidden"
+      whileInView="shown"
       viewport={{ once: true, amount: 0.6 }}
     >
       <svg
@@ -134,7 +143,7 @@ export function CurveDivider({ className, flip = false }: { className?: string; 
             shown: {
               pathLength: 1,
               opacity: 1,
-              transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+              transition: { duration: duration ?? 1.1, ease: [0.16, 1, 0.3, 1] },
             },
           }}
         />
@@ -148,7 +157,11 @@ export function CurveDivider({ className, flip = false }: { className?: string; 
             hidden: { scale: 0 },
             shown: {
               scale: 1,
-              transition: { duration: 0.5, delay: 0.85, ease: [0.16, 1, 0.3, 1] },
+              transition: {
+                duration: duration ?? 0.5,
+                delay: reduce ? 0 : 0.85,
+                ease: [0.16, 1, 0.3, 1],
+              },
             },
           }}
         />

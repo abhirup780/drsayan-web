@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { GrowthCurve } from "@/components/motif/growth-curve";
+import { WhatsAppIcon } from "@/components/motif/whatsapp-icon";
 import { Container } from "@/components/ui/container";
 import { Cta } from "@/components/ui/cta";
 import { Reveal } from "@/components/ui/reveal";
@@ -31,15 +32,23 @@ export function BookingBand({ index = "08" }: { index?: string }) {
               <span className="italic text-marigold">questions</span> too.
             </h2>
             <p className="mt-7 max-w-lg text-base leading-relaxed text-paper/70 sm:text-lg dark:text-ink-muted">
-              Consultations are booked through Neotia Bhagirathi Woman and Child Care Centre in
-              New Town. Call the hospital, or book online, and describe the concern when you do;
-              you will be told what to bring with you.
+              The quickest way to reach Dr. Banerjee is WhatsApp, which goes to him directly.
+              Consultations themselves are held in the diary at Neotia Bhagirathi Woman and Child
+              Care Centre in New Town, so slots are booked through the hospital.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <Cta href="/contact#book" className="bg-marigold text-white hover:bg-paper hover:text-ink dark:text-ink">
-                Request an appointment
-              </Cta>
+              {contact.whatsappHref && (
+                <Cta
+                  href={contact.whatsappHref}
+                  withArrow={false}
+                  icon={<WhatsAppIcon className="size-[1.05rem] shrink-0" />}
+                  className="bg-marigold text-white dark:text-paper hover:bg-ink hover:text-paper dark:hover:bg-ink dark:hover:text-paper"
+                  aria-label={`Message Dr. Banerjee on WhatsApp at ${contact.whatsappDisplay}`}
+                >
+                  Message on WhatsApp
+                </Cta>
+              )}
               <Cta
                 href={contact.bookingUrl}
                 variant="outline"
@@ -47,16 +56,25 @@ export function BookingBand({ index = "08" }: { index?: string }) {
               >
                 Book via the hospital
               </Cta>
+              <Cta
+                href="/contact#book"
+                variant="outline"
+                className="border-paper/25 text-paper hover:border-marigold dark:border-line dark:text-ink"
+              >
+                All the ways to book
+              </Cta>
             </div>
 
             <p className="mt-8 text-sm text-paper/50 dark:text-ink-faint">
-              Prefer to speak to someone?{" "}
+              {contact.whatsappDisplay && (
+                <>
+                  WhatsApp{" "}
+                  <span className="text-marigold">{contact.whatsappDisplay}</span>, or call the
+                  hospital on{" "}
+                </>
+              )}
               <a href={contact.phoneHref} className="link-underline text-marigold">
                 {contact.phoneDisplay}
-              </a>{" "}
-              or{" "}
-              <a href={contact.mobileHref} className="link-underline text-marigold">
-                {contact.mobileDisplay}
               </a>
             </p>
           </Reveal>

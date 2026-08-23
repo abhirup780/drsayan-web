@@ -32,6 +32,7 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono-ui), ui-monospace, "SFMono-Regular", monospace;
   --font-deva: var(--font-deva), var(--font-fraunces), serif;
+  --font-bn: var(--font-bengali), "Noto Serif Bengali", serif;
 
   --text-hero: clamp(2.6rem, 8vw, 7rem);
   --text-display: clamp(2rem, 5vw, 3.9rem);
@@ -356,4 +357,62 @@
 .prose-clinic h3:hover .heading-anchor,
 .prose-clinic .heading-anchor:focus-visible {
   opacity: 1;
+}
+
+/* ── Bengali ──────────────────────────────────────────────────────────
+   Deliberately UNLAYERED, and it has to stay that way.
+
+   Tailwind v4 auto-generates font-family utilities from the theme vars, so
+   `--font-display` produces a `.font-display` utility and `--font-bn`
+   produces `.font-bn`. Those land in the utilities layer, which the cascade
+   resolves ahead of @layer components no matter how specific the component
+   rule is. Putting these rules inside a layer meant Bengali headings kept
+   rendering in Fraunces, which has no Bengali coverage at all.
+
+   Unlayered declarations outrank every layered one, so this wins cleanly
+   without an !important anywhere. If these ever get folded back into
+   @layer components, Bengali silently breaks again.
+
+   One `lang="bn"` attribute is all any markup needs — the /bn page, and the
+   News18 headline and quote on /media. `.font-bn` is the escape hatch for a
+   fragment that needs the face without claiming to be a Bengali passage. */
+
+:lang(bn),
+.font-bn {
+  font-family: var(--font-bn);
+  /* Bengali conjuncts sit taller than Latin at the same size; the extra
+     leading stops matras colliding with the line above. */
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+
+/* Headings: matched both as a descendant of a Bengali block and on the
+   element itself, since `lang` is sometimes set on the heading directly. */
+:lang(bn) .font-display,
+.font-display:lang(bn),
+:lang(bn) .font-display-tight,
+.font-display-tight:lang(bn),
+.font-bn.font-display {
+  font-family: var(--font-bn);
+  font-variation-settings: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+/* The mono eyebrow has no Bengali glyphs, and uppercase tracking is
+   meaningless for a script without case. */
+:lang(bn).label,
+:lang(bn) .label {
+  font-family: var(--font-bn);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* Devanagari keeps its own face even inside a Bengali page — the Sanskrit
+   blessing is not Bengali text. */
+:lang(bn) .font-deva,
+.font-deva:lang(sa) {
+  font-family: var(--font-deva);
+  line-height: 1.6;
 }

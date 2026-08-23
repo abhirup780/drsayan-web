@@ -65,7 +65,7 @@ export default async function TagPage(props: PageProps<"/blog/tag/[tag]">) {
                   className={cn(
                     "inline-block rounded-full border px-3 py-1 text-[0.78rem] transition-colors",
                     t.slug === slug
-                      ? "border-marigold bg-marigold text-white dark:text-ink"
+                      ? "border-marigold bg-marigold text-white dark:text-paper"
                       : "border-line text-ink-muted hover:border-marigold hover:text-marigold"
                   )}
                 >

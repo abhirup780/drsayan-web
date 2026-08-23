@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, JetBrains_Mono, Tiro_Devanagari_Sanskrit } from "next/font/google";
+import {
+  Fraunces,
+  Inter,
+  JetBrains_Mono,
+  Noto_Serif_Bengali,
+  Tiro_Devanagari_Sanskrit,
+} from "next/font/google";
 
 import { SiteHeader } from "@/components/chrome/site-header";
 import { SiteFooter } from "@/components/chrome/site-footer";
@@ -26,6 +32,22 @@ const mono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mono-ui",
+});
+
+/**
+ * Bengali is a first-class language on this site, not a transliteration: the
+ * Bengali landing page and the News18 press quote are both set in it. Fraunces
+ * has no Bengali coverage, so without this the browser would fall back to
+ * whatever the OS happens to ship and the page would lose its typography.
+ *
+ * Two weights only — regular for text, semibold for headings — because the
+ * Bengali subset is heavy and every extra weight is another download.
+ */
+const bengali = Noto_Serif_Bengali({
+  subsets: ["bengali"],
+  weight: ["400", "600"],
+  display: "swap",
+  variable: "--font-bengali",
 });
 
 const deva = Tiro_Devanagari_Sanskrit({
@@ -66,7 +88,15 @@ export const metadata: Metadata = {
     "paediatric endocrinologist Chandipur",
     "child specialist Mankundu",
   ],
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    // The Bengali summary is a real alternate of the site, not a separate
+    // site, so search engines are told which language each version serves.
+    languages: {
+      "en-IN": "/",
+      "bn-IN": "/bn",
+    },
+  },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     shortcut: "/icon.svg",
@@ -115,7 +145,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en-IN"
       data-scroll-behavior="smooth"
-      className={`${fraunces.variable} ${inter.variable} ${mono.variable} ${deva.variable}`}
+      className={`${fraunces.variable} ${inter.variable} ${mono.variable} ${deva.variable} ${bengali.variable}`}
       suppressHydrationWarning
     >
       <head>
