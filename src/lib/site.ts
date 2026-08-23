@@ -67,6 +67,30 @@ export const site = {
   },
 } as const;
 
+/**
+ * Search engine ownership verification.
+ *
+ * Bing is already verified by the file at public/BingSiteAuth.xml. Google
+ * needs a token, which is issued per-property and cannot be invented:
+ *
+ *   1. Open https://search.google.com/search-console
+ *   2. Add a property of type "URL prefix" for https://www.drsayan.in
+ *      (the www form — that is what the site actually serves)
+ *   3. Choose the "HTML tag" method. Google shows a meta tag like
+ *      <meta name="google-site-verification" content="AbC123..." />
+ *   4. Paste only the content value below, then deploy and press Verify.
+ *
+ * While it is null no tag is emitted, which is correct: an empty or wrong
+ * verification tag is worse than none, because Google records a failed
+ * attempt against the property.
+ *
+ * Verification is what makes Search Console show which queries the site
+ * actually ranks for. Without it there is no measurement.
+ */
+export const verification = {
+  google: null as string | null,
+} as const;
+
 export const contact = {
   phoneDisplay: "033 6640 5000",
   phoneHref: "tel:+913366405000",

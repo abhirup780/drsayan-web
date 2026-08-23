@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/chrome/site-header";
 import { SiteFooter } from "@/components/chrome/site-footer";
 import { ThemeScript } from "@/components/chrome/theme-script";
 import { PersonJsonLd } from "@/components/seo/json-ld";
-import { isCanonicalDomain, site } from "@/lib/site";
+import { isCanonicalDomain, site, verification } from "@/lib/site";
 
 import "./globals.css";
 
@@ -128,6 +128,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  // Emitted only once a token is set, so a failed verification attempt is
+  // never recorded against the property. See `verification` in lib/site.ts.
+  ...(verification.google ? { verification: { google: verification.google } } : {}),
   category: "health",
 };
 
