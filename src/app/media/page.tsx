@@ -9,7 +9,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { contact, mediaAppearances } from "@/lib/site";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
@@ -48,7 +48,7 @@ export default function MediaPage() {
       />
 
       {/* ── Talks ────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-28">
+      <section className="py-14 sm:py-20 lg:py-28">
         <Container width="wide">
           <SectionHead
             index="01"
@@ -58,8 +58,18 @@ export default function MediaPage() {
           />
 
           <div className="mt-14 grid gap-10 lg:grid-cols-2">
-            {videos.map((item) => (
-              <Reveal key={item.id}>
+            {videos.map((item, i) => (
+              <Reveal
+                key={item.id}
+                // An odd count leaves the last video stranded in the left
+                // column. It spans both instead and is centred at exactly one
+                // column's width: 50% less half the 2.5rem gap.
+                className={cn(
+                  videos.length % 2 === 1 &&
+                    i === videos.length - 1 &&
+                    "lg:col-span-2 lg:mx-auto lg:w-[calc(50%-1.25rem)]"
+                )}
+              >
                 <article>
                   <VideoEmbed
                     videoId={item.videoId!}
@@ -94,6 +104,7 @@ export default function MediaPage() {
                     title={item.title}
                     url={item.url}
                     labels={item.lang === "bn" ? SHARE_LABELS_BN : undefined}
+                    lang={item.lang === "bn" ? "bn" : undefined}
                     className="mt-4 border-t border-line pt-4"
                   />
                 </article>
@@ -104,7 +115,7 @@ export default function MediaPage() {
       </section>
 
       {/* ── Press ────────────────────────────────────────────── */}
-      <section className="border-y border-line bg-paper-raised py-20 sm:py-28">
+      <section className="border-y border-line bg-paper-raised py-14 sm:py-20 lg:py-28">
         <Container width="wide">
           <SectionHead
             index="02"
@@ -179,7 +190,7 @@ export default function MediaPage() {
       </section>
 
       {/* ── Find the practice ───────────────────────────────── */}
-      <section className="py-20 sm:py-28">
+      <section className="py-14 sm:py-20 lg:py-28">
         <Container width="wide">
           <SectionHead
             index="03"

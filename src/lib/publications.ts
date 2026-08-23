@@ -202,7 +202,8 @@ export const publications: Publication[] = [
     doi: "10.1007/s13312-024-3313-y",
   },
   {
-    authors: "George A, Navi S, Nanda PM, et al.",
+    authors:
+      "George A, Navi S, Nanda PM, Daniel R, Anand K, Banerjee S, Panigrahi I, Dayal D",
     title:
       "Clinical and molecular characterisation of children with monogenic obesity: a case series",
     journal: "Pediatric Endocrinology Diabetes and Metabolism",

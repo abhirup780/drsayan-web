@@ -11,7 +11,7 @@ export function BookingBand({ index = "08" }: { index?: string }) {
   return (
     <section
       id="book"
-      className="grain relative isolate scroll-mt-24 overflow-hidden bg-ink py-24 text-paper sm:py-32 dark:bg-paper-sunk dark:text-ink"
+      className="grain relative isolate scroll-mt-24 overflow-hidden bg-ink py-16 text-paper sm:py-24 lg:py-32 dark:bg-paper-sunk dark:text-ink"
     >
       <GrowthCurve
         className="absolute inset-x-0 bottom-0 -z-10 h-2/3 w-full text-paper opacity-20 dark:text-ink

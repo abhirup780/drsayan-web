@@ -4,7 +4,7 @@ import { Cta } from "@/components/ui/cta";
 
 export default function NotFound() {
   return (
-    <section className="grain relative isolate flex min-h-svh items-center overflow-hidden py-32">
+    <section className="grain relative isolate flex min-h-svh items-center overflow-hidden py-20 sm:py-32">
       <GrowthCurve
         className="absolute inset-x-0 bottom-0 -z-10 h-2/3 w-full text-ink opacity-40
           [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_50%,black_90%)]"

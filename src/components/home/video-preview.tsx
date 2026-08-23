@@ -27,7 +27,7 @@ export function VideoPreview({ index = "07" }: { index?: string }) {
   if (!video?.videoId || !video.poster) return null;
 
   return (
-    <section className="border-t border-line bg-paper-raised py-24 sm:py-32">
+    <section className="border-t border-line bg-paper-raised py-16 sm:py-24 lg:py-32">
       <Container width="wide">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-5">
@@ -35,7 +35,7 @@ export function VideoPreview({ index = "07" }: { index?: string }) {
               index={index}
               eyebrow="In his own words"
               title="Ten minutes, no jargon."
-              lede="Recorded at the hospital for families rather than for colleagues. If you would rather hear it explained than read it, start here."
+              lede="Recorded at the hospital for families rather than for colleagues. Nothing loads from YouTube until you press play."
             />
 
             <p className="mt-8 border-l-2 border-marigold/40 pl-5 text-[0.95rem] leading-relaxed text-ink-muted">

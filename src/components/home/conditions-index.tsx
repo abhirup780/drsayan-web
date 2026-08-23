@@ -20,7 +20,7 @@ export function ConditionsIndex() {
   const current = conditionGroups[active];
 
   return (
-    <section id="conditions" className="scroll-mt-24 border-y border-line bg-paper-raised py-24 sm:py-32">
+    <section id="conditions" className="scroll-mt-24 border-y border-line bg-paper-raised py-16 sm:py-24 lg:py-32">
       <Container width="wide">
         <SectionHead
           index="02"

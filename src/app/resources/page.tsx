@@ -84,7 +84,7 @@ export default function ResourcesPage() {
       <ResourceShelf index="01" />
 
       {/* ── Red flags ────────────────────────────────────────── */}
-      <section className="py-24 sm:py-32">
+      <section className="py-16 sm:py-24 lg:py-32">
         <Container width="wide">
           <SectionHead
             index="02"
@@ -138,7 +138,7 @@ export default function ResourcesPage() {
       </section>
 
       {/* ── Browse the blog ───────────────────────────────── */}
-      <section className="border-y border-line bg-paper-raised py-24 sm:py-32">
+      <section className="border-y border-line bg-paper-raised py-16 sm:py-24 lg:py-32">
         <Container width="wide">
           <SectionHead
             index="03"

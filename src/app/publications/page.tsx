@@ -86,11 +86,11 @@ function PublicationCard({ item }: { item: Publication }) {
         {item.doi ? (
           // The site's underline-grows-on-hover language, driven by the card
           // rather than by hovering this small span specifically.
-          <span className="link-underline ml-auto font-mono text-[0.78rem] break-all text-marigold group-hover:bg-[length:100%_1px]">
+          <span className="link-underline font-mono text-[0.78rem] sm:ml-auto break-all text-marigold group-hover:bg-[length:100%_1px]">
             doi:{item.doi}
           </span>
         ) : (
-          <span className="ml-auto font-mono text-[0.78rem] text-ink-faint">No DOI on record</span>
+          <span className="font-mono text-[0.78rem] sm:ml-auto text-ink-faint">No DOI on record</span>
         )}
       </div>
     </>

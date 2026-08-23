@@ -114,7 +114,10 @@ export function SiteHeader() {
           >
             <Monogram className="w-9 shrink-0 sm:w-10" />
             <span className="flex flex-col leading-none">
-              <span className="font-display text-[0.98rem] tracking-tight sm:text-[1.05rem]">
+              {/* Both the wordmark and the right cluster are shrink-0, so at
+                  320px the bar came to ~324px and clipped the menu button.
+                  Two tenths of a rem buys the margin back. */}
+              <span className="font-display text-[0.92rem] tracking-tight sm:text-[1.05rem]">
                 Dr. Sayan Banerjee
               </span>
               <span className="label mt-1 hidden text-[0.58rem] sm:block">

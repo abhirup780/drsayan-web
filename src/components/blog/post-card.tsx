@@ -9,7 +9,10 @@ export function CategoryPill({ slug, className }: { slug: string; className?: st
   return (
     <span
       className={cn(
-        "label rounded-full border border-line px-2.5 py-1 text-[0.6rem] text-ink-muted",
+        // `.label` is already 0.6875rem; the old 0.6rem override put this at
+        // 9.6px, which is below comfortable reading on a phone and this site
+        // is read overwhelmingly on phones.
+        "label rounded-full border border-line px-2.5 py-1 text-ink-muted",
         className
       )}
     >

@@ -10,7 +10,7 @@ export function BlogPreview({ index = "06" }: { index?: string }) {
   if (posts.length === 0) return null;
 
   return (
-    <section className="border-t border-line py-24 sm:py-32">
+    <section className="border-t border-line py-16 sm:py-24 lg:py-32">
       <Container width="wide">
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead

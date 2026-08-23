@@ -285,6 +285,7 @@ export default function BengaliPage() {
                   title={bengaliVideo.title}
                   url={bengaliVideo.url}
                   labels={SHARE_LABELS_BN}
+                  lang="bn"
                   className="mt-5 border-t border-line pt-4"
                 />
               </Reveal>

@@ -8,7 +8,7 @@ import { stats } from "@/lib/site";
 
 export function PracticeIntro() {
   return (
-    <section id="practice" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="practice" className="scroll-mt-24 py-16 sm:py-24 lg:py-32">
       <Container width="wide">
         <SectionHead
           index="01"

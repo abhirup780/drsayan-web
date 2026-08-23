@@ -97,7 +97,7 @@ export function PercentileExplainer() {
       aria-labelledby="chart-heading"
       className="relative border-y border-line bg-ink text-paper dark:bg-paper-sunk dark:text-ink"
     >
-      <Container width="wide" className="py-20 sm:py-24">
+      <Container width="wide" className="py-14 sm:py-20 lg:py-24">
         <div className="mb-12">
           <div className="flex items-baseline gap-4">
             <span className="label text-marigold">03</span>

@@ -73,9 +73,10 @@ export function VideoEmbed({
             </svg>
           </span>
 
-          <span className="label absolute bottom-4 left-4 rounded-full bg-paper/90 px-3 py-1.5 text-ink">
-            Loads from YouTube on play
-          </span>
+          {/* No badge over the poster. At phone width the pill spanned most
+              of the thumbnail, and on /media it only repeated the section
+              lede. The claim still lives in that lede and in the privacy
+              page; the artwork stays legible. */}
         </button>
       )}
     </div>

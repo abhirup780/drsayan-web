@@ -69,7 +69,7 @@ export default function VisitPage() {
       <FirstVisit index="01" />
 
       {/* ── What to bring ────────────────────────────────────── */}
-      <section className="py-24 sm:py-32">
+      <section className="py-16 sm:py-24 lg:py-32">
         <Container width="wide">
           <SectionHead
             index="02"
@@ -111,7 +111,7 @@ export default function VisitPage() {
       </section>
 
       {/* ── Where to come ────────────────────────────────────── */}
-      <section className="border-y border-line bg-paper-raised py-24 sm:py-32">
+      <section className="border-y border-line bg-paper-raised py-16 sm:py-24 lg:py-32">
         <Container width="wide">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
@@ -224,7 +224,7 @@ export default function VisitPage() {
       </section>
 
       {/* ── Preparing a child ────────────────────────────────── */}
-      <section className="py-24 sm:py-32">
+      <section className="py-16 sm:py-24 lg:py-32">
         <Container width="wide">
           <SectionHead
             index="04"
@@ -283,7 +283,7 @@ export default function VisitPage() {
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section className="border-t border-line bg-paper-raised py-20 sm:py-24">
+      <section className="border-t border-line bg-paper-raised py-14 sm:py-20 lg:py-24">
         <Container width="wide">
           <SectionHead index="05" eyebrow="FAQ" title="Practical questions." />
 

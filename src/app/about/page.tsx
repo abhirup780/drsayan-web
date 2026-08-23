@@ -97,9 +97,15 @@ export default function AboutPage() {
                 { k: "Consults at", v: "Neotia Bhagirathi, New Town" },
                 { k: "Languages", v: "Bengali · Hindi · English" },
               ].map((row) => (
-                <div key={row.k} className="flex items-baseline justify-between gap-6 py-3.5">
+                // Stacked on phones. Side by side, "Super-speciality" leaves
+                // about 158px for "Paediatric & adolescent endocrinology",
+                // which wraps to a ragged two lines against the label.
+                <div
+                  key={row.k}
+                  className="flex flex-col gap-1 py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+                >
                   <dt className="label">{row.k}</dt>
-                  <dd className="text-right text-[0.9rem] text-ink">{row.v}</dd>
+                  <dd className="text-[0.9rem] text-ink sm:text-right">{row.v}</dd>
                 </div>
               ))}
             </dl>
@@ -146,7 +152,7 @@ export default function AboutPage() {
       </Container>
 
       {/* ── Training ─────────────────────────────────────────── */}
-      <section className="border-y border-line bg-paper-raised py-20 sm:py-24">
+      <section className="border-y border-line bg-paper-raised py-14 sm:py-20 lg:py-24">
         <Container width="wide">
           <SectionHead
             index="01"
@@ -176,7 +182,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Principles ───────────────────────────────────────── */}
-      <section className="py-20 sm:py-28">
+      <section className="py-14 sm:py-20 lg:py-28">
         <Container width="wide">
           <SectionHead
             index="02"
@@ -198,7 +204,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Beyond the clinic ────────────────────────────────── */}
-      <section className="border-t border-line bg-paper-raised py-20 sm:py-24">
+      <section className="border-t border-line bg-paper-raised py-14 sm:py-20 lg:py-24">
         <Container width="wide">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <Reveal className="lg:col-span-7">

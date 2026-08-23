@@ -34,7 +34,12 @@
   --font-deva: var(--font-deva), var(--font-fraunces), serif;
   --font-bn: var(--font-bengali), "Noto Serif Bengali", serif;
 
-  --text-hero: clamp(2.6rem, 8vw, 7rem);
+  /* The floor governs every viewport below 520px, so at 2.6rem a 360px
+     Android got the same 41.6px as a 500px one and the home headline
+     ("on their own curve.") ran ~4px past the container. 2.15rem lets it
+     scale down where it needs to; above 520px the 8vw term takes over and
+     desktop is unchanged. */
+  --text-hero: clamp(2.15rem, 8vw, 7rem);
   --text-display: clamp(2rem, 5vw, 3.9rem);
   --text-title: clamp(1.55rem, 2.9vw, 2.4rem);
 

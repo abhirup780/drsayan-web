@@ -200,7 +200,7 @@ export default async function ArticlePage(props: PageProps<"/blog/[slug]">) {
       {related.length > 0 && (
         <section
           aria-labelledby="related-heading"
-          className="border-t border-line bg-paper-raised py-20 sm:py-24"
+          className="border-t border-line bg-paper-raised py-14 sm:py-20 lg:py-24"
         >
           <Container width="wide">
             <div className="flex items-baseline gap-4">

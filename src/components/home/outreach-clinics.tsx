@@ -18,7 +18,7 @@ import { clinics, outreachClinics, outreachNote } from "@/lib/site";
  */
 export function OutreachClinics({ index = "06" }: { index?: string }) {
   return (
-    <section id="outreach" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="outreach" className="scroll-mt-24 py-16 sm:py-24 lg:py-32">
       <Container width="wide">
         <SectionHead
           index={index}
