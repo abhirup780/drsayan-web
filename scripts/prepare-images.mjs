@@ -21,6 +21,8 @@ const jobs = [
   { in: "pic2.jpeg", out: "portrait-clinic.jpg", width: 1400, quality: 84 },
   { in: "pic3.jpeg", out: "portrait-studio.jpg", width: 1200, quality: 84 },
   { in: "conference pic.jpg", out: "portrait-conference.jpg", width: 1600, quality: 84 },
+  // Speaking at the RSSDIWB 2026 annual conference. Used on /media.
+  { in: "lecture-rssdiwb-2026.jpg", out: "portrait-lecture.jpg", width: 1280, quality: 84 },
 ];
 
 await mkdir(out, { recursive: true });
@@ -53,6 +55,12 @@ const mediaOut = path.resolve(here, "../public/media");
 const mediaJobs = [
   { in: "video-diabetes-in-children.jpg", out: "video-diabetes-in-children.jpg", width: 1280, quality: 82 },
   { in: "video-dka-silent-emergency.jpg", out: "video-dka-silent-emergency.jpg", width: 1280, quality: 82 },
+  {
+    in: "video-bengali-podcast-diabetes.jpg",
+    out: "video-bengali-podcast-diabetes.jpg",
+    width: 1280,
+    quality: 82,
+  },
 ];
 
 await mkdir(mediaOut, { recursive: true });

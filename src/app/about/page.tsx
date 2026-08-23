@@ -78,7 +78,9 @@ export default function AboutPage() {
       <Container width="wide" className="py-16 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-5">
-            <div className="relative aspect-4/5 overflow-hidden rounded-t-[11rem] rounded-b-xl bg-paper-sunk">
+            {/* The same frame as the home and Bengali heroes: generous radius
+                on the top-left and bottom-right, tight on the other two. */}
+            <div className="relative aspect-4/5 overflow-hidden rounded-tl-[4.5rem] rounded-tr-2xl rounded-br-[4.5rem] rounded-bl-2xl bg-paper-sunk sm:rounded-tl-[6rem] sm:rounded-br-[6rem]">
               <Image
                 src="/portraits/portrait-hero.jpg"
                 alt="Portrait of Dr. Sayan Banerjee."
@@ -239,14 +241,14 @@ export default function AboutPage() {
                 <figure>
                   <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-paper-sunk">
                     <Image
-                      src="/portraits/portrait-conference.jpg"
-                      alt="Dr. Sayan Banerjee at a medical conference."
+                      src="/portraits/portrait-lecture.jpg"
+                      alt="Dr. Sayan Banerjee presenting at the RSSDIWB annual conference, 2026."
                       fill
                       sizes="(max-width: 1024px) 90vw, 38vw"
                       className="object-cover"
                     />
                   </div>
-                  <figcaption className="label mt-3">At a national meeting</figcaption>
+                  <figcaption className="label mt-3">RSSDIWB annual conference, 2026</figcaption>
                 </figure>
 
                 <figure>

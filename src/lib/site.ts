@@ -225,6 +225,20 @@ export const mediaAppearances: MediaAppearance[] = [
     poster: "/media/video-diabetes-in-children.jpg",
     note: "An introduction for families who have just heard the diagnosis.",
   },
+  {
+    id: "video-bengali-podcast-diabetes",
+    kind: "video",
+    outlet: "Health Inside | বাংলা",
+    title:
+      "বাচ্চাদের ডায়াবেটিসের লক্ষণ ও চিকিৎসা | বাচ্চাদের ডায়াবেটিস হলে কী করণীয়?",
+    // TODO: set the real upload date from the channel listing.
+    date: null,
+    url: "https://www.youtube.com/watch?v=qshIsQyrAOQ",
+    lang: "bn",
+    videoId: "qshIsQyrAOQ",
+    poster: "/media/video-bengali-podcast-diabetes.jpg",
+    note: "টাইপ ১ ডায়াবিটিসের প্রাথমিক লক্ষণ আর বাড়িতে কী করণীয়, বাংলায়।",
+  },
   // TODO: the Facebook reel at facebook.com/reel/1673437530543871 is not
   // listed yet — Facebook requires a login to read it, so its date, caption
   // and whether it is his own clip or a hospital repost are all unconfirmed.

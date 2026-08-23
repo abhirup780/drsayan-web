@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { SHARE_LABELS_BN, ShareRow } from "@/components/blog/share-row";
+import { ClinicMap } from "@/components/contact/clinic-map";
+import { VideoEmbed } from "@/components/media/video-embed";
 import { CurveDivider } from "@/components/motif/growth-curve";
 import { WhatsAppIcon } from "@/components/motif/whatsapp-icon";
 import { BreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/ui/container";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
-import { clinics, contact, outreachClinics, site } from "@/lib/site";
+import { clinics, contact, mediaAppearances, outreachClinics, site } from "@/lib/site";
+import { cn } from "@/lib/utils";
 import { ogDefaults } from "@/lib/metadata";
 
 export const metadata: Metadata = {
@@ -120,6 +124,11 @@ const bringList = [
   "আপনার প্রশ্নগুলো, লিখে আনা",
 ];
 
+/** The Bengali-language talk, shown on this page rather than the English ones. */
+const bengaliVideo = mediaAppearances.find(
+  (item) => item.kind === "video" && item.lang === "bn"
+);
+
 const readMore = [
   { href: "/conditions", label: "যে সব সমস্যা দেখা হয়", en: "Conditions" },
   { href: "/visit", label: "প্রথম দিন কী হয়", en: "Your Visit" },
@@ -139,7 +148,7 @@ export default function BengaliPage() {
             <Reveal className="lg:col-span-7">
               <p className="text-[0.95rem] text-marigold">শিশু ও কৈশোরের হরমোন বিশেষজ্ঞ</p>
               <h1 className="font-display mt-5 text-[clamp(2rem,5.5vw,4rem)] leading-[1.25]">
-                বেড়ে ওঠা অনেকটা সময়ের ব্যাপার। গোটা পথটাতেই পাশে থাকতে চাই।
+                বেড়ে ওঠা অনেকটা সময়ের ব্যাপার, গোটা পথটাতেই পাশে থাকতে চাই
               </h1>
               <p className="mt-7 max-w-xl text-base leading-loose text-ink-muted sm:text-lg">
                 ডাঃ সায়ন বন্দ্যোপাধ্যায়। MBBS, MD (পেডিয়াট্রিক্স), DM (পেডিয়াট্রিক
@@ -220,7 +229,7 @@ export default function BengaliPage() {
           <Reveal>
             <p className="text-[0.9rem] text-marigold">কী নিয়ে কাজ</p>
             <h2 className="font-display mt-4 text-[clamp(1.7rem,3.6vw,2.8rem)] leading-[1.3]">
-              শিশুর শরীরে যে গ্রন্থিগুলো নিঃশব্দে সব ঠিক রাখে।
+              শিশুর শরীরে যে গ্রন্থিগুলো নিঃশব্দে সব ঠিক রাখে
             </h2>
           </Reveal>
 
@@ -244,6 +253,46 @@ export default function BengaliPage() {
         </Container>
       </section>
 
+      {/* ── Watch ────────────────────────────────────────────── */}
+      {bengaliVideo?.videoId && bengaliVideo.poster && (
+        <section className="border-t border-line py-16 sm:py-20">
+          <Container width="wide">
+            <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+              <Reveal className="lg:col-span-5">
+                <p className="text-[0.9rem] text-marigold">দেখে নিন</p>
+                <h2 className="font-display mt-4 text-[clamp(1.7rem,3.6vw,2.6rem)] leading-[1.3]">
+                  সহজ বাংলায়...
+                </h2>
+                <p className="mt-6 text-[0.95rem] leading-loose text-ink-muted">
+                  {bengaliVideo.note}
+                </p>
+                <Link href="/media" className="link-underline mt-6 inline-block text-[0.95rem] text-marigold">
+                  বাকি ভিডিও ও সংবাদমাধ্যম
+                </Link>
+              </Reveal>
+
+              <Reveal delay={0.08} className="lg:col-span-7">
+                <VideoEmbed
+                  videoId={bengaliVideo.videoId}
+                  title={bengaliVideo.title}
+                  poster={bengaliVideo.poster}
+                />
+                <p className="mt-4 text-[0.95rem] leading-relaxed text-ink-muted">
+                  {bengaliVideo.title}
+                </p>
+                <p className="mt-1 text-[0.85rem] text-ink-faint">{bengaliVideo.outlet}</p>
+                <ShareRow
+                  title={bengaliVideo.title}
+                  url={bengaliVideo.url}
+                  labels={SHARE_LABELS_BN}
+                  className="mt-5 border-t border-line pt-4"
+                />
+              </Reveal>
+            </div>
+          </Container>
+        </section>
+      )}
+
       {/* ── When to see someone ──────────────────────────────── */}
       <section className="border-y border-line bg-paper-raised py-16 sm:py-20">
         <Container width="wide">
@@ -251,7 +300,7 @@ export default function BengaliPage() {
             <Reveal className="lg:col-span-5">
               <p className="text-[0.9rem] text-marigold">কখন দেখানো দরকার</p>
               <h2 className="font-display mt-4 text-[clamp(1.7rem,3.6vw,2.6rem)] leading-[1.3]">
-                এগুলোর একটাও থাকলে দেরি করবেন না।
+                এগুলোর একটাও থাকলে দেরি করবেন না
               </h2>
               <p className="mt-6 text-[0.95rem] leading-loose text-ink-muted">
                 হরমোনের সমস্যা সাধারণত হঠাৎ ধরা পড়ে না, ধীরে ধীরে বোঝা যায়। তাই সময়ে দেখানোটাই
@@ -281,7 +330,7 @@ export default function BengaliPage() {
           <Reveal>
             <p className="text-[0.9rem] text-marigold">প্রথম দিন</p>
             <h2 className="font-display mt-4 text-[clamp(1.7rem,3.6vw,2.8rem)] leading-[1.3]">
-              চেম্বারে ঠিক কী কী হয়।
+              চেম্বারে ঠিক কী কী হয়
             </h2>
           </Reveal>
 
@@ -324,7 +373,7 @@ export default function BengaliPage() {
           <Reveal>
             <p className="text-[0.9rem] text-marigold">কোথায় পাবেন</p>
             <h2 className="font-display mt-4 text-[clamp(1.7rem,3.6vw,2.8rem)] leading-[1.3]">
-              কলকাতায় নিয়মিত, জেলায় মাসে একবার।
+              কলকাতায় নিয়মিত, জেলায় মাসে একবার
             </h2>
           </Reveal>
 
@@ -341,16 +390,21 @@ export default function BengaliPage() {
                   <p className="mt-4 text-[0.9rem] leading-loose text-ink-muted">
                     অ্যাপয়েন্টমেন্ট নিয়ে আসতে হয়। সময় জানতে হাসপাতালে ফোন করুন।
                   </p>
-                  <a
-                    href={clinic.mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-underline mt-5 inline-block text-[0.9rem] text-marigold"
-                  >
-                    ম্যাপে দেখুন
-                  </a>
                 </article>
               ))}
+
+              {/* The column ran short against the seven district centres
+                  beside it. The map both fills that gap and belongs here,
+                  directly under the address it marks. */}
+              {clinics[0]?.geo && (
+                <ClinicMap
+                  clinic={clinics[0]}
+                  className="mt-6 bg-paper"
+                  caption="নিউ টাউন, কলকাতা ৭০০ ১৫৬"
+                  linkLabel="রাস্তা দেখুন"
+                  lang="bn"
+                />
+              )}
             </Reveal>
 
             <Reveal delay={0.06} className="lg:col-span-7">
@@ -360,8 +414,19 @@ export default function BengaliPage() {
               </p>
 
               <ul className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-                {outreachClinics.map((clinic) => (
-                  <li key={clinic.town} className="bg-paper p-5">
+                {/* Seven centres in a two-column grid leaves the eighth cell
+                    empty, showing the grid's own line colour as a grey block.
+                    The last item spans both columns instead. */}
+                {outreachClinics.map((clinic, i) => (
+                  <li
+                    key={clinic.town}
+                    className={cn(
+                      "bg-paper p-5",
+                      i === outreachClinics.length - 1 &&
+                        outreachClinics.length % 2 === 1 &&
+                        "sm:col-span-2"
+                    )}
+                  >
                     <p className="font-display text-lg">{townInBengali[clinic.town] ?? clinic.town}</p>
                     <p className="mt-1 text-[0.85rem] leading-relaxed text-ink-muted" lang="en">
                       {clinic.centre}
@@ -388,7 +453,7 @@ export default function BengaliPage() {
             <Reveal>
               <p className="text-[0.9rem] text-marigold">যোগাযোগ</p>
               <h2 className="font-display mt-4 text-[clamp(1.7rem,3.6vw,2.8rem)] leading-[1.3]">
-                প্রশ্ন থাকলে সরাসরি জিজ্ঞেস করুন।
+                প্রশ্ন থাকলে সরাসরি জিজ্ঞেস করুন
               </h2>
               <p className="mt-6 text-[0.95rem] leading-loose text-ink-muted">
                 সবচেয়ে সহজ রাস্তা হোয়াটসঅ্যাপ, সেটা সরাসরি ডাক্তারবাবুর কাছেই যায়। সমস্যাটা কী,
@@ -458,7 +523,7 @@ export default function BengaliPage() {
           <Reveal>
             <p className="text-[0.9rem] text-marigold">আরও পড়ুন</p>
             <h2 className="font-display mt-4 text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.3]">
-              বাকি ওয়েবসাইটটা ইংরেজিতে।
+              বাকি ওয়েবসাইটটা ইংরেজিতে
             </h2>
             <p className="mt-5 max-w-2xl text-[0.95rem] leading-loose text-ink-muted">
               এই পাতাটা গোটা সাইটের সংক্ষিপ্ত রূপ। বিস্তারিত লেখা, ব্লগ, ভিডিও আর গবেষণাপত্র সবই

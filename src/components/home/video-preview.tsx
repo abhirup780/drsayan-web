@@ -1,3 +1,4 @@
+import { ShareRow } from "@/components/blog/share-row";
 import { VideoEmbed } from "@/components/media/video-embed";
 import { Container } from "@/components/ui/container";
 import { Cta } from "@/components/ui/cta";
@@ -17,7 +18,12 @@ import { mediaAppearances } from "@/lib/site";
  * local JPEG and nothing from YouTube until somebody presses play.
  */
 export function VideoPreview({ index = "07" }: { index?: string }) {
-  const video = mediaAppearances.find((item) => item.kind === "video" && item.videoId);
+  // Explicitly English: the Bengali podcast belongs on /bn and /media, not
+  // fronting an English landing page. Matching on language rather than on
+  // array position means reordering `mediaAppearances` cannot break this.
+  const video = mediaAppearances.find(
+    (item) => item.kind === "video" && item.lang === "en" && item.videoId
+  );
   if (!video?.videoId || !video.poster) return null;
 
   return (
@@ -49,6 +55,11 @@ export function VideoPreview({ index = "07" }: { index?: string }) {
               <span className="font-display text-lg leading-snug">{video.title}</span>
               <span className="label shrink-0">{video.outlet}</span>
             </p>
+            <ShareRow
+              title={video.title}
+              url={video.url}
+              className="mt-4 border-t border-line pt-4"
+            />
           </Reveal>
         </div>
       </Container>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { SHARE_LABELS_BN, ShareRow } from "@/components/blog/share-row";
 import { VideoEmbed } from "@/components/media/video-embed";
 import { BreadcrumbJsonLd, MediaJsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/ui/container";
@@ -52,8 +53,8 @@ export default function MediaPage() {
           <SectionHead
             index="01"
             eyebrow="Watch"
-            title="Two talks on childhood diabetes."
-            lede="Recorded for families rather than for colleagues. Nothing loads from YouTube until you press play."
+            title="Talks on childhood diabetes."
+            lede="Recorded for families rather than for colleagues, in English and in Bengali. Nothing loads from YouTube until you press play."
           />
 
           <div className="mt-14 grid gap-10 lg:grid-cols-2">
@@ -65,9 +66,36 @@ export default function MediaPage() {
                     title={item.title}
                     poster={item.poster!}
                   />
-                  <h3 className="font-display mt-6 text-2xl leading-tight">{item.title}</h3>
-                  <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-muted">{item.note}</p>
-                  <p className="label mt-4 text-ink-faint">{item.outlet}</p>
+                  <div className="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+                    <h3 lang={item.lang} className="font-display flex-1 text-2xl leading-tight">
+                      {item.title}
+                    </h3>
+                    {item.lang === "bn" && (
+                      <span
+                        lang="bn"
+                        className="label shrink-0 rounded-full border border-line px-2.5 py-0.5 text-ink-faint"
+                      >
+                        বাংলা
+                      </span>
+                    )}
+                  </div>
+                  <p
+                    lang={item.lang}
+                    className="mt-3 text-[0.95rem] leading-relaxed text-ink-muted"
+                  >
+                    {item.note}
+                  </p>
+                  <p lang={item.lang === "bn" ? "bn" : undefined} className="label mt-4 text-ink-faint">
+                    {item.outlet}
+                  </p>
+                  {/* Shares the video itself, not this page: the talk is the
+                      thing worth forwarding to another parent. */}
+                  <ShareRow
+                    title={item.title}
+                    url={item.url}
+                    labels={item.lang === "bn" ? SHARE_LABELS_BN : undefined}
+                    className="mt-4 border-t border-line pt-4"
+                  />
                 </article>
               </Reveal>
             ))}

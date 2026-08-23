@@ -269,7 +269,7 @@ export function MediaJsonLd() {
                 thumbnailUrl: `${site.url}${item.poster}`,
                 embedUrl: `https://www.youtube-nocookie.com/embed/${item.videoId}`,
                 ...(item.date ? { uploadDate: item.date } : {}),
-                inLanguage: "en-IN",
+                inLanguage: item.lang === "bn" ? "bn-IN" : "en-IN",
                 publisher: { "@type": "Organization", name: item.outlet },
                 about: { "@id": `${site.url}/#physician` },
               }

@@ -17,7 +17,20 @@ import { cn } from "@/lib/utils";
  * Loading this does set Google cookies, which is why the privacy page names
  * it explicitly rather than claiming the site embeds nothing.
  */
-export function ClinicMap({ clinic, className }: { clinic: Clinic; className?: string }) {
+export function ClinicMap({
+  clinic,
+  className,
+  /** Overridable so the Bengali page can caption its own map in Bengali. */
+  caption,
+  linkLabel = "Get directions",
+  lang,
+}: {
+  clinic: Clinic;
+  className?: string;
+  caption?: string;
+  linkLabel?: string;
+  lang?: string;
+}) {
   if (!clinic.geo) return null;
 
   const { lat, lng } = clinic.geo;
@@ -34,17 +47,18 @@ export function ClinicMap({ clinic, className }: { clinic: Clinic; className?: s
         referrerPolicy="no-referrer-when-downgrade"
         className="block w-full flex-1 border-0 min-h-[320px]"
       />
-      <figcaption className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-line bg-paper-raised px-5 py-4">
-        <span className="text-[0.9rem] text-ink-muted">
-          {clinic.area}
-        </span>
+      <figcaption
+        lang={lang}
+        className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-line bg-paper-raised px-5 py-4"
+      >
+        <span className="text-[0.9rem] text-ink-muted">{caption ?? clinic.area}</span>
         <a
           href={clinic.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="link-underline text-[0.9rem] text-marigold"
+          className="link-underline shrink-0 text-[0.9rem] text-marigold"
         >
-          Get directions
+          {linkLabel}
         </a>
       </figcaption>
     </figure>
