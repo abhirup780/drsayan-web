@@ -224,6 +224,33 @@ export const mediaAppearances: MediaAppearance[] = [
     note: "Why no malt drink outgrows a child's own genetic potential.",
   },
   {
+    id: "video-bengali-growth",
+    kind: "video",
+    outlet: "Sonoscan Air",
+    title: "শিশুর Growth থেমে যাচ্ছে? কারণ, লক্ষণ ও সমাধান",
+    // TODO: set the real upload date from the channel listing.
+    date: null,
+    url: "https://www.youtube.com/watch?v=i_9_vvDV7J4",
+    lang: "bn",
+    videoId: "i_9_vvDV7J4",
+    poster: "/media/video-bengali-growth.jpg",
+    note: "উচ্চতা বাড়া থেমে গেলে পিছনে কী কারণ থাকতে পারে, আর কখন ডাক্তার দেখানো দরকার — সহজ বাংলায়।",
+  },
+  {
+    id: "video-bengali-thyroid",
+    kind: "video",
+    outlet: "Health Inside | বাংলা",
+    title:
+      "বাচ্চার থাইরয়েডের সমস্যা বুঝবেন কীভাবে বাচ্চার হাইপোথাইরয়েডিজমের সমস্যা ধরা পড়লে কি করবেন?",
+    // TODO: set the real upload date from the channel listing.
+    date: null,
+    url: "https://www.youtube.com/watch?v=Qxk3RsSCPfM",
+    lang: "bn",
+    videoId: "Qxk3RsSCPfM",
+    poster: "/media/video-bengali-thyroid.jpg",
+    note: "জন্মগত হাইপোথাইরয়েডিজম কীভাবে ধরা পড়ে, স্ক্রিনিং কেন জরুরি, আর ধরা পড়লে চিকিৎসা কী — সহজ বাংলায়।",
+  },
+  {
     id: "video-dka-silent-emergency",
     kind: "video",
     outlet: "Neotia Bhagirathi Woman & Child Care Centre",

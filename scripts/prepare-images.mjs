@@ -61,6 +61,8 @@ const mediaJobs = [
     width: 1280,
     quality: 82,
   },
+  { in: "video-bengali-growth.jpg", out: "video-bengali-growth.jpg", width: 1280, quality: 82 },
+  { in: "video-bengali-thyroid.jpg", out: "video-bengali-thyroid.jpg", width: 1280, quality: 82 },
 ];
 
 await mkdir(mediaOut, { recursive: true });

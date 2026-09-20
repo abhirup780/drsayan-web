@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 
+import { SHARE_LABELS_BN, ShareRow } from "@/components/blog/share-row";
 import { HeightChecker } from "@/components/growth/height-checker";
+import { VideoEmbed } from "@/components/media/video-embed";
 import { BreadcrumbJsonLd, FaqJsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/ui/container";
 import { PageHeader } from "@/components/ui/page-header";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { ogDefaults } from "@/lib/metadata";
-import { emergencyNote } from "@/lib/site";
+import { emergencyNote, mediaAppearances } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Height check for children",
@@ -64,6 +66,13 @@ const faqs = [
     a: "No. Everything is calculated in your own browser. The date of birth, the height and the parents' heights are never sent to this website or anywhere else, and nothing is saved when you close the page.",
   },
 ];
+
+/**
+ * The Bengali podcast on faltering growth, which is this page's subject said
+ * out loud. Looked up by id rather than by position so reordering
+ * `mediaAppearances` cannot silently put a diabetes talk here.
+ */
+const growthTalk = mediaAppearances.find((item) => item.id === "video-bengali-growth");
 
 export default function GrowthCheckPage() {
   return (
@@ -138,11 +147,53 @@ export default function GrowthCheckPage() {
         </Container>
       </section>
 
+      {/* ── The talk ─────────────────────────────────────────── */}
+      {growthTalk?.videoId && growthTalk.poster && (
+        <section className="py-14 sm:py-20 lg:py-24">
+          <Container width="wide">
+            <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+              <Reveal className="lg:col-span-5">
+                <SectionHead
+                  index="02"
+                  eyebrow="Watch"
+                  title="The same question, in Bengali."
+                  lede="A number on a chart is a starting point, not an explanation. This podcast is the conversation that usually follows it: why a child's height stalls, what is worth checking, and when it is time to see someone."
+                />
+                <p lang="bn" className="mt-8 border-l-2 border-marigold/40 pl-5 text-[0.95rem] leading-loose text-ink-muted">
+                  {growthTalk.note}
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.08} className="lg:col-span-7">
+                <VideoEmbed
+                  videoId={growthTalk.videoId}
+                  title={growthTalk.title}
+                  poster={growthTalk.poster}
+                />
+                <p className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+                  <span lang="bn" className="font-display text-lg leading-snug">
+                    {growthTalk.title}
+                  </span>
+                  <span className="label shrink-0 text-ink-faint">{growthTalk.outlet}</span>
+                </p>
+                <ShareRow
+                  title={growthTalk.title}
+                  url={growthTalk.url}
+                  labels={SHARE_LABELS_BN}
+                  lang="bn"
+                  className="mt-4 border-t border-line pt-4"
+                />
+              </Reveal>
+            </div>
+          </Container>
+        </section>
+      )}
+
       {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section className="py-14 sm:py-20 lg:py-24">
+      <section className="border-t border-line py-14 sm:py-20 lg:py-24">
         <Container width="wide">
           <SectionHead
-            index="02"
+            index="03"
             eyebrow="Questions"
             title="What this does, and what it cannot."
           />

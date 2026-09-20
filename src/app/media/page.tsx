@@ -15,12 +15,13 @@ import { ogDefaults } from "@/lib/metadata";
 export const metadata: Metadata = {
   title: "Media & press",
   description:
-    "Talks and press appearances by Dr. Sayan Banerjee, paediatric endocrinologist: diabetes and diabetic ketoacidosis in children, and comment in The Telegraph and News18 Bengali on childhood growth and nutrition.",
+    "Talks and press appearances by Dr. Sayan Banerjee, paediatric endocrinologist: podcasts in Bengali on faltering growth and congenital hypothyroidism, talks on diabetes and diabetic ketoacidosis in children, and comment in The Telegraph and News18 Bengali.",
   alternates: { canonical: "/media" },
   openGraph: {
     ...ogDefaults,
     title: "Media & press · Dr. Sayan Banerjee",
-    description: "Talks on childhood diabetes, and press comment on growth and nutrition.",
+    description:
+      "Podcasts and talks on childhood growth, thyroid and diabetes, in Bengali and in English.",
     url: "/media",
     type: "website",
   },
@@ -53,8 +54,8 @@ export default function MediaPage() {
           <SectionHead
             index="01"
             eyebrow="Watch"
-            title="Talks on childhood diabetes."
-            lede="Recorded for families rather than for colleagues, in English and in Bengali. Nothing loads from YouTube until you press play."
+            title="Talks and podcasts."
+            lede="Growth that has slowed, thyroid trouble a newborn is born with, and diabetes — recorded for families rather than for colleagues, in Bengali and in English. Nothing loads from YouTube until you press play."
           />
 
           <div className="mt-14 grid gap-10 lg:grid-cols-2">

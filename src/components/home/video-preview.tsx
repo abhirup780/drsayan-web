@@ -9,10 +9,11 @@ import { mediaAppearances } from "@/lib/site";
 /**
  * One recorded talk on the landing page.
  *
- * Deliberately one, not the whole shelf. Both talks are about diabetes, which
- * is one of eight condition groups this practice covers — running both here
- * would tell a parent worried about their child's height that they are on a
- * diabetes clinic's website. The rest live on /media.
+ * Deliberately one, not the whole shelf. Stacking every talk here would turn
+ * the landing page into a channel listing, and the two English ones are both
+ * about diabetes — running both would tell a parent worried about their
+ * child's height that they are on a diabetes clinic's website. The rest,
+ * including the Bengali podcasts on growth and thyroid, live on /media.
  *
  * The embed is the same click-to-load facade used there, so this costs one
  * local JPEG and nothing from YouTube until somebody presses play.
