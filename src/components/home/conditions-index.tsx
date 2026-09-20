@@ -124,10 +124,15 @@ export function ConditionsIndex() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current.id}
-                  initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
+                  // This AnimatePresence has no `initial={false}`, so the
+                  // first mount is server-rendered with `initial` applied.
+                  // It must therefore not depend on `reduce`, or the panel
+                  // hydrates to a style React refuses to patch and stays at
+                  // opacity 0. Reduce lives in the transition instead.
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: reduce ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="rounded-2xl border border-line bg-paper p-8"
                 >
                   <p className="label">

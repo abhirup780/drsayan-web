@@ -10,8 +10,12 @@ import { Container } from "@/components/ui/container";
 import { Cta } from "@/components/ui/cta";
 import { contact, site } from "@/lib/site";
 
+// The rendered initial state must not depend on `reduce`: the hook is false
+// during SSR and true on a reduced-motion device, and React will not patch a
+// style mismatch, so the element would stay at opacity 0 forever. Reduce only
+// ever zeroes the duration. Same reasoning as `Reveal`.
 const rise = (delay: number, reduce: boolean | null) => ({
-  initial: { opacity: 0, y: reduce ? 0 : 22 },
+  initial: { opacity: 0, y: 22 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: reduce ? 0 : 0.9, delay: reduce ? 0 : delay, ease: [0.16, 1, 0.3, 1] as const },
 });
@@ -78,9 +82,13 @@ export function Hero() {
                     stroke="currentColor"
                     strokeWidth="2.2"
                     strokeLinecap="round"
-                    initial={reduce ? false : { pathLength: 0 }}
-                    animate={reduce ? undefined : { pathLength: 1 }}
-                    transition={{ duration: 1.2, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{
+                      duration: reduce ? 0 : 1.2,
+                      delay: reduce ? 0 : 0.9,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                   />
                 </motion.svg>
               </span>
@@ -134,7 +142,7 @@ export function Hero() {
 
           {/* ── Portrait ──────────────────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, y: reduce ? 0 : 34 }}
+            initial={{ opacity: 0, y: 34 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: reduce ? 0 : 1.1, delay: reduce ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="relative mx-auto w-full max-w-sm lg:col-span-5 lg:max-w-none xl:col-span-6"
@@ -152,9 +160,13 @@ export function Hero() {
                   return (
                     <motion.div
                       key={i}
-                      initial={reduce ? false : { opacity: 0, x: 8 }}
-                      animate={reduce ? undefined : { opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.6 + i * 0.025, ease: [0.16, 1, 0.3, 1] }}
+                      initial={{ opacity: 0, x: 8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        duration: reduce ? 0 : 0.5,
+                        delay: reduce ? 0 : 0.6 + i * 0.025,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                       className="absolute right-0 flex items-center justify-end gap-1.5"
                       style={{ top: `calc(1.5rem + ${(i / 20) * 100}% - ${(i / 20) * 3}rem)` }}
                     >
@@ -203,9 +215,13 @@ export function Hero() {
                   {/* Plotted point resting on the frame — the monogram's mark. */}
                   <motion.span
                     aria-hidden="true"
-                    initial={reduce ? false : { scale: 0 }}
-                    animate={reduce ? undefined : { scale: 1 }}
-                    transition={{ duration: 0.6, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      duration: reduce ? 0 : 0.6,
+                      delay: reduce ? 0 : 1.3,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                     className="absolute bottom-4 left-4 grid size-14 place-items-center rounded-full bg-marigold text-white shadow-lg sm:size-16 dark:text-paper"
                   >
                     <GrowthFigures className="w-8 sm:w-9" />

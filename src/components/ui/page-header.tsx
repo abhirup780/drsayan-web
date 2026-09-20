@@ -61,7 +61,7 @@ export function PageHeader({
       </Container>
 
       <Container width="wide">
-        <CurveDivider className="mt-12 opacity-70" />
+        <CurveDivider className="mt-8 opacity-70 sm:mt-12" />
       </Container>
     </header>
   );

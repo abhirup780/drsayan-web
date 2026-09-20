@@ -10,20 +10,28 @@ type Props = {
   delay?: number;
   /** Distance in px the element travels up into place. */
   y?: number;
-  as?: "div" | "section" | "li" | "span" | "p";
+  as?: "div" | "section" | "aside" | "li" | "span" | "p";
 };
 
 /**
  * The site's single entrance animation. Everything that appears on scroll
  * uses it, so the whole page shares one rhythm instead of a zoo of effects.
- * Honours `prefers-reduced-motion` by rendering statically.
+ *
+ * Reduced motion is honoured by zeroing the transition, never by changing the
+ * `hidden` variant. `useReducedMotion` is false during SSR and true on a
+ * device that asks for reduced motion, so branching the variant made the
+ * server send `transform: translateY(18px)` while the client wanted
+ * `transform: none`. React reports that as an attribute mismatch it "will not
+ * patch up", leaves the server's `opacity: 0` in place, and every revealed
+ * section on the site stays invisible for exactly the users who most need it
+ * to work. Keep the rendered initial state independent of the hook.
  */
 export function Reveal({ children, className, delay = 0, y = 18, as = "div" }: Props) {
   const reduce = useReducedMotion();
   const MotionTag = motion[as];
 
   const variants: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y },
+    hidden: { opacity: 0, y },
     shown: {
       opacity: 1,
       y: 0,
@@ -96,7 +104,7 @@ export function RevealItem({
     <MotionTag
       className={cn(className)}
       variants={{
-        hidden: { opacity: 0, y: reduce ? 0 : y },
+        hidden: { opacity: 0, y },
         shown: { opacity: 1, y: 0, transition: { duration: reduce ? 0 : 0.65, ease: [0.16, 1, 0.3, 1] } },
       }}
     >

@@ -4,6 +4,7 @@ import { BookingBand } from "@/components/home/booking-band";
 import { ConditionsIndex } from "@/components/home/conditions-index";
 import { CredentialBand } from "@/components/home/credential-band";
 import { FirstVisit } from "@/components/home/first-visit";
+import { GrowthCheckBand } from "@/components/home/growth-check-band";
 import { Hero } from "@/components/home/hero";
 import { BlogPreview } from "@/components/home/blog-preview";
 import { OutreachClinics } from "@/components/home/outreach-clinics";
@@ -27,6 +28,7 @@ export default function HomePage() {
       <Hero />
       <CredentialBand />
       <PressStrip />
+      <GrowthCheckBand />
       <PracticeIntro />
       <ConditionsIndex />
       <PercentileExplainer />

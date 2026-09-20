@@ -47,7 +47,11 @@ export function GrowthCurve({
   animate = true,
 }: Props) {
   const reduce = useReducedMotion();
-  const shouldAnimate = animate && !reduce;
+  // `reduce` must not reach the rendered initial state: it is false during
+  // SSR and true on a reduced-motion device, and React will not patch the
+  // resulting attribute mismatch. The `animate` prop still decides whether
+  // there is an animation at all; reduce only collapses its duration.
+  const shouldAnimate = animate;
 
   return (
     <svg
@@ -82,8 +86,8 @@ export function GrowthCurve({
               initial={shouldAnimate ? { pathLength: 0 } : false}
               animate={shouldAnimate ? { pathLength: 1 } : undefined}
               transition={{
-                duration: 2.1,
-                delay: 0.25 + Math.abs(i - highlightIndex) * 0.12,
+                duration: reduce ? 0 : 2.1,
+                delay: reduce ? 0 : 0.25 + Math.abs(i - highlightIndex) * 0.12,
                 ease: [0.16, 1, 0.3, 1],
               }}
             />

@@ -370,6 +370,7 @@ export const outreachNote =
   "These clinics run once a month and the date moves. Always call the centre to confirm the next sitting before travelling.";
 
 export const nav = [
+  { href: "/growth-check", label: "Height check" },
   { href: "/about", label: "About" },
   { href: "/conditions", label: "Conditions" },
   { href: "/visit", label: "Your Visit" },

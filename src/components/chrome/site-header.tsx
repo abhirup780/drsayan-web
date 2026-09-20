@@ -126,7 +126,7 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex xl:gap-7">
+          <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 xl:flex xl:gap-7">
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
@@ -163,7 +163,7 @@ export function SiteHeader() {
             </Link>
           </nav>
 
-          <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-6 lg:gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-2 xl:ml-6 xl:gap-3">
             {/* Below lg the utility strip is hidden, so language and theme
                 fall back into the main bar alongside the menu button. */}
             {/* Visible at every width including the narrowest phones. On a
@@ -175,7 +175,7 @@ export function SiteHeader() {
               href={bengaliPage.href}
               lang="bn"
               className={cn(
-                "inline-flex h-9 shrink-0 items-center rounded-full border px-3 text-[0.8rem] whitespace-nowrap transition-colors sm:px-3.5 sm:text-[0.85rem] lg:hidden",
+                "inline-flex h-9 shrink-0 items-center rounded-full border px-3 text-[0.8rem] whitespace-nowrap transition-colors sm:px-3.5 sm:text-[0.85rem] xl:hidden",
                 pathname === bengaliPage.href
                   ? "border-marigold bg-marigold text-white dark:text-paper"
                   : "border-marigold/40 text-marigold hover:border-marigold"
@@ -212,7 +212,7 @@ export function SiteHeader() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="grid size-9 shrink-0 place-items-center rounded-full border border-line text-ink transition-colors hover:border-marigold lg:hidden"
+              className="grid size-9 shrink-0 place-items-center rounded-full border border-line text-ink transition-colors hover:border-marigold xl:hidden"
             >
               <span className="relative block h-3 w-4">
                 <span
@@ -237,7 +237,7 @@ export function SiteHeader() {
         {open && (
           <motion.div
             id="mobile-nav"
-            className="fixed inset-0 z-40 bg-paper lg:hidden"
+            className="fixed inset-0 z-40 bg-paper xl:hidden"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}

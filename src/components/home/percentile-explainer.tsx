@@ -158,8 +158,8 @@ export function PercentileExplainer() {
                 <motion.g
                   fill="none"
                   strokeLinecap="round"
-                  initial={reduce ? false : "hidden"}
-                  whileInView={reduce ? undefined : "shown"}
+                  initial="hidden"
+                  whileInView="shown"
                   viewport={{ once: true, amount: 0.3 }}
                 >
                   {CENTILES.map((c, i) => (

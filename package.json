@@ -9,7 +9,9 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "check": "npm run typecheck && npm run lint && npm run build",
-    "images": "node scripts/prepare-images.mjs"
+    "images": "node scripts/prepare-images.mjs",
+    "test:growth": "node --experimental-strip-types --no-warnings scripts/test-growth-calc.mjs",
+    "build:growth-lms": "python scripts/build-growth-lms.py"
   },
   "dependencies": {
     "fuse.js": "^7.5.0",
